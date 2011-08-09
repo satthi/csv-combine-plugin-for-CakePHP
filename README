@@ -90,7 +90,8 @@ class CsvTestsController extends AppController {
 
 ##ビュー##
 フォームが自動で生成される。
-これについてはヘルパーを使う必要はない。
+実際にはこのヘルパーを使用しなくてもよい。
+本当にさくっとデータ移行をしたい時に使用するとよいかも。
 
 <?php echo $this->CsvUpload->form();?>
 
