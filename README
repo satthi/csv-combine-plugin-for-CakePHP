@@ -63,8 +63,8 @@ class CsvTestsController extends AppController {
 }
 
 ※配列を返す※
-基本的には$list(カラム名の配列)を引数にcsvSaveメソッドを呼び出す。
-csvSaveの引数は以下の通り。
+基本的には$list(カラム名の配列)を引数にcsvDataメソッドを呼び出す。
+csvDataの引数は以下の通り。
 
 @param $colimn_list カラム名を並び順に(必須
 @param $file_type ファイルタイプ（CSVかTSVか）
