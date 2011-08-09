@@ -33,10 +33,10 @@ TMP . csv_import_upload.csv(tsv)にファイルが一時的に生成されては
 基本的には$list(カラム名の配列)を引数にcsvSaveメソッドを呼び出す。
 csvSaveの引数は以下の通り。
 
-@param $colimn_list カラム名を並び順に(必須
+@array $colimn_list カラム名を並び順に(必須
 @bool $clear_flag DBを初期化するかどうか。(デフォルトは初期化しない)
 @param $file_type ファイルタイプ（CSVかTSVか）
-@param $conditions 初期化条件　初期化条件がある場合は設定可能。(一部データだけを削除する場合など)
+@array $conditions 初期化条件　初期化条件がある場合は設定可能。(一部データだけを削除する場合など)
 @param $column_name カラム名を設定　デフォルト値はcsv
 @param $delimiter 区切り文字を設定 (デフォルトはnullでcsvやtsvなどの拡張子に応じた区切り文字が設定されるので基本的には設定する必要はない)
 
@@ -66,7 +66,7 @@ class CsvTestsController extends AppController {
 基本的には$list(カラム名の配列)を引数にcsvDataメソッドを呼び出す。
 csvDataの引数は以下の通り。
 
-@param $colimn_list カラム名を並び順に(必須
+@array $colimn_list カラム名を並び順に(必須
 @param $file_type ファイルタイプ（CSVかTSVか）
 @param $column_name カラム名を設定　デフォルト値はcsv
 @param $delimiter 区切り文字を設定 (デフォルトはnullでcsvやtsvなどの拡張子に応じた区切り文字が設定されるので基本的には設定する必要はない)

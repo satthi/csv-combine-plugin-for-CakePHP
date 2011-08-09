@@ -24,10 +24,10 @@ class CsvImportBehavior extends ModelBehavior {
     /*
      * csvSave
      *
-     * @param $colimn_list カラム名を並び順に(必須
+     * @array $colimn_list カラム名を並び順に(必須
      * @bool $clear_flag DBを初期化するかどうか。(デフォルトは初期化しない)
      * @param $file_type ファイルタイプ（CSVかTSVか）
-     * @param $conditions 初期化条件　初期化条件がある場合は設定可能。(一部データだけを削除する場合など)
+     * @array $conditions 初期化条件　初期化条件がある場合は設定可能。(一部データだけを削除する場合など)
      * @param $column_name カラム名を設定
      * @param $delimiter 区切り文字を設定 (デフォルトはnullでcsvやtsvなどの拡張子に応じた区切り文字が設定される)
      */
@@ -82,7 +82,7 @@ class CsvImportBehavior extends ModelBehavior {
     /*
      * csvData
      *
-     * @param $colimn_list カラム名を並び順に(必須
+     * @array $colimn_list カラム名を並び順に(必須
      * @param $file_type ファイルタイプ（CSVかTSVか）
      * @param $column_name カラム名を設定
      * @param $delimiter 区切り文字を設定 (デフォルトはnullでcsvやtsvなどの拡張子に応じた区切り文字が設定される)
@@ -135,10 +135,10 @@ class CsvImportBehavior extends ModelBehavior {
      * _loadFormCsv
      *
      * @param $fileName ファイル名
-     * @param $colimn_list カラムリスト
+     * @array $colimn_list カラムリスト
      * @bool $clear_flag 初期化フラグ
      * @param $file_type ファイルタイプ
-     * @param $file_type 初期化条件
+     * @array $conditions 初期化条件
      * @param $delimiter 区切り文字
      */
 
@@ -211,7 +211,7 @@ class CsvImportBehavior extends ModelBehavior {
      * _loadDataCsv
      *
      * @param $fileName ファイル名
-     * @param $colimn_list カラムリスト
+     * @array $colimn_list カラムリスト
      * @param $file_type ファイルタイプ
      * @param $delimiter 区切り文字
      */
