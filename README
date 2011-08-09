@@ -38,6 +38,7 @@ csvSaveの引数は以下の通り。
 @param $file_type ファイルタイプ（CSVかTSVか）
 @param $conditions 初期化条件　初期化条件がある場合は設定可能。(一部データだけを削除する場合など)
 @param $column_name カラム名を設定　デフォルト値はcsv
+@param $delimiter 区切り文字を設定 (デフォルトはnullでcsvやtsvなどの拡張子に応じた区切り文字が設定されるので基本的には設定する必要はない)
 
 <?php
 class CsvTestsController extends AppController {
@@ -68,6 +69,7 @@ csvSaveの引数は以下の通り。
 @param $colimn_list カラム名を並び順に(必須
 @param $file_type ファイルタイプ（CSVかTSVか）
 @param $column_name カラム名を設定　デフォルト値はcsv
+@param $delimiter 区切り文字を設定 (デフォルトはnullでcsvやtsvなどの拡張子に応じた区切り文字が設定されるので基本的には設定する必要はない)
 
 <?php
 class CsvTestsController extends AppController {
@@ -90,7 +92,7 @@ class CsvTestsController extends AppController {
 
 ##ビュー##
 フォームが自動で生成される。
-実際にはこのヘルパーを使用しなくてもよい。
+実際にはこのヘルパーは使用しなくてよい。
 本当にさくっとデータ移行をしたい時に使用するとよいかも。
 
 <?php echo $this->CsvUpload->form();?>
