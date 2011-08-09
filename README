@@ -12,7 +12,7 @@ app/plugin内にcsv_importフォルダを設置
 
 app_modelもしくは該当モデルに以下の記述
 behavior宣言の後ろの配列は記載しなくても問題なし
-TMP . csv_import_upload.csvにファイルが一時的に生成されては困るときのみ設定
+TMP . csv_import_upload.csv(tsv)にファイルが一時的に生成されては困るときのみ設定
 いずれにしても最終的にはファイルは削除されることになる。
 
     <?php
@@ -21,7 +21,7 @@ TMP . csv_import_upload.csvにファイルが一時的に生成されては困�
                 'CsvImport.CsvImport' =>
                 array(
                     'csv_directory' => TMP,
-                    'csv_path' => 'test.csv'
+                    'csv_path' => 'test'
                     )
             );
         }

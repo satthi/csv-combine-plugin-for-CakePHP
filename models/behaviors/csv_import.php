@@ -36,6 +36,7 @@ class CsvImportBehavior extends ModelBehavior {
         if ($column_list == array()) {
             return false;
         }
+        $file_type = strtolower($file_type);
         //現在はCSV(カンマ区切り)とTSV(タブ区切り)に対応
         if ($file_type != 'csv' && $file_type != 'tsv') {
             return false;
@@ -83,6 +84,7 @@ class CsvImportBehavior extends ModelBehavior {
         if ($column_list == array()) {
             return false;
         }
+        $file_type = strtolower($file_type);
         //現在はCSV(カンマ区切り)とTSV(タブ区切り)に対応
         if ($file_type != 'csv' && $file_type != 'tsv') {
             return false;
