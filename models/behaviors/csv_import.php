@@ -75,6 +75,7 @@ class CsvImportBehavior extends ModelBehavior {
      *
      * @param $colimn_list カラム名を並び順に(必須
      * @param $file_type ファイルタイプ（CSVかTSVか）
+     * @param $column_name カラム名を設定
      */
 
     function csvData(&$model, $column_list = array(), $file_type = 'csv',$column_name = 'csv') {

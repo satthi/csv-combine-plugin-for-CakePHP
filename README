@@ -37,6 +37,7 @@ csvSaveの引数は以下の通り。
 @bool $clear_flag DBを初期化するかどうか。(デフォルトは初期化しない)
 @param $file_type ファイルタイプ（CSVかTSVか）
 @param $conditions 初期化条件　初期化条件がある場合は設定可能。(一部データだけを削除する場合など)
+@param $column_name カラム名を設定　デフォルト値はcsv
 
 <?php
 class CsvTestsController extends AppController {
@@ -45,7 +46,7 @@ class CsvTestsController extends AppController {
 
     function index() {
         if (!empty($this->data)) {
-            $list = array('body','test');
+            $list = array('body','title');
             $this->CsvTest->begin();
             if ($this->CsvTest->csvSave($list)) {
                 $this->CsvTest->commit();
@@ -66,6 +67,7 @@ csvSaveの引数は以下の通り。
 
 @param $colimn_list カラム名を並び順に(必須
 @param $file_type ファイルタイプ（CSVかTSVか）
+@param $column_name カラム名を設定　デフォルト値はcsv
 
 <?php
 class CsvTestsController extends AppController {
@@ -74,10 +76,11 @@ class CsvTestsController extends AppController {
 
     function index() {
         if (!empty($this->data)) {
-            $list = array('body', 'tesy');
+            $list = array('body', 'title');
             $data = $this->CsvTest->csvData($list, 'tsv');
             if ($data === false) {
                 print_r('MISS');
+                exit;
             }
             print_r($data);
             exit;
@@ -87,7 +90,7 @@ class CsvTestsController extends AppController {
 
 ##ビュー##
 フォームが自動で生成される。
-自作する場合は添付ファイルのカラムを「csv」にセットする。
+これについてはヘルパーを使う必要はない。
 
 <?php echo $this->CsvUpload->form();?>
 
