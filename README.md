@@ -40,26 +40,26 @@ csvSaveの引数は以下の通り。
 @param $column_name カラム名を設定　デフォルト値はcsv
 @param $delimiter 区切り文字を設定 (デフォルトはnullでcsvやtsvなどの拡張子に応じた区切り文字が設定されるので基本的には設定する必要はない)
 
-<?php
-class CsvTestsController extends AppController {
-    var $name = 'CsvTests';
-    var $helpers = array('CsvImport.CsvUpload');
-    function index() {
-        if (!empty($this->data)) {
-            $list = array('body','title');
-            $this->CsvTest->begin();
-            if ($this->CsvTest->csvSave($list)) {
-                $this->CsvTest->commit();
-                print_r('OK');
-                exit;
-            } else {
-                $this->CsvTest->rollback();
-                print_r('NG');
-                exit;
+    <?php
+    class CsvTestsController extends AppController {
+        var $name = 'CsvTests';
+        var $helpers = array('CsvImport.CsvUpload');
+        function index() {
+            if (!empty($this->data)) {
+                $list = array('body','title');
+                $this->CsvTest->begin();
+                if ($this->CsvTest->csvSave($list)) {
+                    $this->CsvTest->commit();
+                    print_r('OK');
+                    exit;
+                } else {
+                    $this->CsvTest->rollback();
+                    print_r('NG');
+                    exit;
+                }
             }
         }
     }
-}
 
 ※配列を返す※
 基本的には$list(カラム名の配列)を引数にcsvDataメソッドを呼び出す。
@@ -70,23 +70,23 @@ csvDataの引数は以下の通り。
 @param $column_name カラム名を設定　デフォルト値はcsv
 @param $delimiter 区切り文字を設定 (デフォルトはnullでcsvやtsvなどの拡張子に応じた区切り文字が設定されるので基本的には設定する必要はない)
 
-<?php
-class CsvTestsController extends AppController {
-    var $name = 'CsvTests';
-    var $helpers = array('CsvImport.CsvUpload');
-    function index() {
-        if (!empty($this->data)) {
-            $list = array('body', 'title');
-            $data = $this->CsvTest->csvData($list, 'tsv');
-            if ($data === false) {
-                print_r('MISS');
+    <?php
+    class CsvTestsController extends AppController {
+        var $name = 'CsvTests';
+        var $helpers = array('CsvImport.CsvUpload');
+        function index() {
+            if (!empty($this->data)) {
+                $list = array('body', 'title');
+                $data = $this->CsvTest->csvData($list, 'tsv');
+                if ($data === false) {
+                    print_r('MISS');
+                    exit;
+                }
+                print_r($data);
                 exit;
             }
-            print_r($data);
-            exit;
         }
     }
-}
 
 ##ビュー##
 フォームが自動で生成される。
