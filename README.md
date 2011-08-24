@@ -44,7 +44,6 @@ csvSaveの引数は以下の通り。
 class CsvTestsController extends AppController {
     var $name = 'CsvTests';
     var $helpers = array('CsvImport.CsvUpload');
-
     function index() {
         if (!empty($this->data)) {
             $list = array('body','title');
@@ -75,7 +74,6 @@ csvDataの引数は以下の通り。
 class CsvTestsController extends AppController {
     var $name = 'CsvTests';
     var $helpers = array('CsvImport.CsvUpload');
-
     function index() {
         if (!empty($this->data)) {
             $list = array('body', 'title');
