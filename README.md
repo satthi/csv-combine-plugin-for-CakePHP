@@ -16,9 +16,13 @@ CakePHP version 1.3
 app/plugin内にcsv_importフォルダを設置
 
 app_modelもしくは該当モデルに以下の記述
+
 behavior宣言の後ろの配列は記載しなくても問題なし
+
 TMP . csv_import_upload.[拡張子]にファイルが一時的に生成されては困るときのみ設定
+
 いずれにしても最終的にはファイルは削除されることになる。
+
 
     <?php
         class AppModel extends Model {
@@ -39,13 +43,9 @@ TMP . csv_import_upload.[拡張子]にファイルが一時的に生成されて
 csvSaveの引数は以下の通り。
 
 @array $colimn_list カラム名を並び順に(必須
-
 @bool $clear_flag DBを初期化するかどうか。(デフォルトは初期化しない)
-
 @param $delimiter 区切り文字を設定 (デフォルトは","で"\t"や"|"などを指定することが可能)
-
 @array $conditions 初期化条件　初期化条件がある場合は設定可能。(一部データだけを削除する場合など)
-
 @param $column_name カラム名を設定
 
 
@@ -75,9 +75,7 @@ csvSaveの引数は以下の通り。
 csvDataの引数は以下の通り。
 
 @array $colimn_list カラム名を並び順に(必須
-
 @param $delimiter 区切り文字を設定 (デフォルトは","で"\t"や"|"などを指定することが可能)
-
 @param $column_name カラム名を設定
 
 
