@@ -26,28 +26,15 @@ class CsvImportBehavior extends ModelBehavior {
      *
      * @array $colimn_list カラム名を並び順に(必須
      * @bool $clear_flag DBを初期化するかどうか。(デフォルトは初期化しない)
-     * @param $file_type ファイルタイプ（CSVかTSVか）
+     * @param $delimiter 区切り文字を設定 (デフォルトはnullでcsvやtsvなどの拡張子に応じた区切り文字が設定される)
      * @array $conditions 初期化条件　初期化条件がある場合は設定可能。(一部データだけを削除する場合など)
      * @param $column_name カラム名を設定
-     * @param $delimiter 区切り文字を設定 (デフォルトはnullでcsvやtsvなどの拡張子に応じた区切り文字が設定される)
      */
 
-    function csvSave(&$model, $column_list = array(), $clear_flag = false, $file_type = 'csv', $conditions = array(), $column_name = 'csv', $delimiter = null) {
+    function csvSave(&$model, $column_list = array(), $clear_flag = false, $delimiter = ",", $conditions = array(), $column_name = 'csv') {
         //データやカラムリストがない場合はfalse
         if ($column_list == array()) {
             return false;
-        }
-        $file_type = strtolower($file_type);
-        //現在はCSV(カンマ区切り)とTSV(タブ区切り)に対応
-        if ($file_type != 'csv' && $file_type != 'tsv') {
-            return false;
-        }
-        if (!$delimiter) {
-            if ($file_type == 'csv') {
-                $delimiter = ',';
-            } elseif ($file_type == 'tsv') {
-                $delimiter = "\t";
-            }
         }
         $params = Router::getParams();
         //$this->dataの中身を取得
@@ -60,16 +47,16 @@ class CsvImportBehavior extends ModelBehavior {
         ini_set("memory_limit", -1);
         set_time_limit(0);
         $up_file = $data[$model->alias][$column_name]['tmp_name'];
-        //拡張子チェック
-        if (pathinfo($data[$model->alias][$column_name]['name'], PATHINFO_EXTENSION) != $file_type) {
-            return false;
+        $ext = pathinfo($data[$model->alias][$column_name]['name']);
+        if (empty($ext)) {
+            $ext = 'txt';
         }
-        $fileName = $this->settings[$model->alias]['csv_directory'] . $this->settings[$model->alias]['csv_path'] . '.' . $file_type;
+        $fileName = $this->settings[$model->alias]['csv_directory'] . $this->settings[$model->alias]['csv_path'] . '.' . $ext;
         if (is_uploaded_file($up_file)) {
             move_uploaded_file($up_file, $fileName);
             //データが保存できた時
-            if ($this->_loadFormCsv($model, $fileName, $column_list, $clear_flag, $file_type, $conditions, $delimiter)) {
-                unlink($this->settings[$model->alias]['csv_directory'] . $this->settings[$model->alias]['csv_path'] . '.' . $file_type);
+            if ($this->_loadFormCsv($model, $fileName, $column_list, $clear_flag, $conditions, $delimiter)) {
+                unlink($this->settings[$model->alias]['csv_directory'] . $this->settings[$model->alias]['csv_path'] . '.' . $ext);
                 return true;
             } else {
                 return false;
@@ -83,28 +70,11 @@ class CsvImportBehavior extends ModelBehavior {
      * csvData
      *
      * @array $colimn_list カラム名を並び順に(必須
-     * @param $file_type ファイルタイプ（CSVかTSVか）
-     * @param $column_name カラム名を設定
      * @param $delimiter 区切り文字を設定 (デフォルトはnullでcsvやtsvなどの拡張子に応じた区切り文字が設定される)
+     * @param $column_name カラム名を設定
      */
 
-    function csvData(&$model, $column_list = array(), $file_type = 'csv', $column_name = 'csv', $delimiter = null) {
-        //データやカラムリストがない場合はfalse
-        if ($column_list == array()) {
-            return false;
-        }
-        $file_type = strtolower($file_type);
-        //現在はCSV(カンマ区切り)とTSV(タブ区切り)に対応
-        if ($file_type != 'csv' && $file_type != 'tsv') {
-            return false;
-        }
-        if (!$delimiter) {
-            if ($file_type == 'csv') {
-                $delimiter = ',';
-            } elseif ($file_type == 'tsv') {
-                $delimiter = "\t";
-            }
-        }
+    function csvData(&$model, $column_list = array(), $delimiter = ",", $column_name = 'csv') {
         $params = Router::getParams();
         //$this->dataの中身を取得
         if (empty($params['data'])) {
@@ -115,16 +85,16 @@ class CsvImportBehavior extends ModelBehavior {
         ini_set("memory_limit", -1);
         set_time_limit(0);
         $up_file = $data[$model->alias][$column_name]['tmp_name'];
-        //拡張子チェック
-        if (pathinfo($data[$model->alias][$column_name]['name'], PATHINFO_EXTENSION) != $file_type) {
-            return false;
+        $ext = pathinfo($data[$model->alias][$column_name]['name']);
+        if (empty($ext)) {
+            $ext = 'txt';
         }
-        $fileName = $this->settings[$model->alias]['csv_directory'] . $this->settings[$model->alias]['csv_path'] . '.' . $file_type;
+        $fileName = $this->settings[$model->alias]['csv_directory'] . $this->settings[$model->alias]['csv_path'] . '.' . $ext;
         if (is_uploaded_file($up_file)) {
             move_uploaded_file($up_file, $fileName);
             //データが保存できた時
-            $data = $this->_loadDataCsv($model, $fileName, $column_list, $file_type, $delimiter);
-            unlink($this->settings[$model->alias]['csv_directory'] . $this->settings[$model->alias]['csv_path'] . '.' . $file_type);
+            $data = $this->_loadDataCsv($model, $fileName, $column_list, $delimiter);
+            unlink($this->settings[$model->alias]['csv_directory'] . $this->settings[$model->alias]['csv_path'] . '.' . $ext);
             return $data;
         } else {
             return false;
@@ -137,12 +107,11 @@ class CsvImportBehavior extends ModelBehavior {
      * @param $fileName ファイル名
      * @array $colimn_list カラムリスト
      * @bool $clear_flag 初期化フラグ
-     * @param $file_type ファイルタイプ
      * @array $conditions 初期化条件
      * @param $delimiter 区切り文字
      */
 
-    private function _loadFormCsv($model, $fileName, $column_list, $clear_flag, $file_type, $conditions, $delimiter) {
+    private function _loadFormCsv($model, $fileName, $column_list, $clear_flag, $conditions, $delimiter) {
         //保存をするのでモデルを読み込み
         $instance = ClassRegistry::init($model->alias);
         try {
@@ -212,11 +181,10 @@ class CsvImportBehavior extends ModelBehavior {
      *
      * @param $fileName ファイル名
      * @array $colimn_list カラムリスト
-     * @param $file_type ファイルタイプ
      * @param $delimiter 区切り文字
      */
 
-    private function _loadDataCsv($model, $fileName, $column_list, $file_type, $delimiter) {
+    private function _loadDataCsv($model, $fileName, $column_list, $delimiter) {
         //保存をするのでモデルを読み込み
         $instance = ClassRegistry::init($model->alias);
         try {

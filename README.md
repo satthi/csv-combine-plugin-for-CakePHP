@@ -1,6 +1,11 @@
-# CsvImport plugin for CakePHP VERSION 0.1#
+# CsvImport plugin for CakePHP VERSION 0.2#
 PHP versions  5
 CakePHP version 1.3
+
+## 変更点 ##
+
+*2011/09/01 ver 0.2 :拡張子の指定を完全に外して、区切り文字で指定するよう変更。タブ区切りのtxtファイルなども使用可能に。
+
 
 ## 特徴 ##
 
@@ -12,7 +17,7 @@ app/plugin内にcsv_importフォルダを設置
 
 app_modelもしくは該当モデルに以下の記述
 behavior宣言の後ろの配列は記載しなくても問題なし
-TMP . csv_import_upload.csv(tsv)にファイルが一時的に生成されては困るときのみ設定
+TMP . csv_import_upload.[拡張子]にファイルが一時的に生成されては困るときのみ設定
 いずれにしても最終的にはファイルは削除されることになる。
 
     <?php
@@ -35,10 +40,9 @@ csvSaveの引数は以下の通り。
 
 @array $colimn_list カラム名を並び順に(必須
 @bool $clear_flag DBを初期化するかどうか。(デフォルトは初期化しない)
-@param $file_type ファイルタイプ（CSVかTSVか）
+@param $delimiter 区切り文字を設定 (デフォルトは","で"\t"や"|"などを指定することが可能)
 @array $conditions 初期化条件　初期化条件がある場合は設定可能。(一部データだけを削除する場合など)
-@param $column_name カラム名を設定　デフォルト値はcsv
-@param $delimiter 区切り文字を設定 (デフォルトはnullでcsvやtsvなどの拡張子に応じた区切り文字が設定されるので基本的には設定する必要はない)
+@param $column_name カラム名を設定
 
     <?php
     class CsvTestsController extends AppController {
@@ -48,7 +52,7 @@ csvSaveの引数は以下の通り。
             if (!empty($this->data)) {
                 $list = array('body','title');
                 $this->CsvTest->begin();
-                if ($this->CsvTest->csvSave($list)) {
+                if ($this->CsvTest->csvSave($list,true,",",array('id' < 5))) {
                     $this->CsvTest->commit();
                     print_r('OK');
                     exit;
@@ -66,9 +70,8 @@ csvSaveの引数は以下の通り。
 csvDataの引数は以下の通り。
 
 @array $colimn_list カラム名を並び順に(必須
-@param $file_type ファイルタイプ（CSVかTSVか）
-@param $column_name カラム名を設定　デフォルト値はcsv
-@param $delimiter 区切り文字を設定 (デフォルトはnullでcsvやtsvなどの拡張子に応じた区切り文字が設定されるので基本的には設定する必要はない)
+@param $delimiter 区切り文字を設定 (デフォルトは","で"\t"や"|"などを指定することが可能)
+@param $column_name カラム名を設定
 
     <?php
     class CsvTestsController extends AppController {
@@ -77,7 +80,7 @@ csvDataの引数は以下の通り。
         function index() {
             if (!empty($this->data)) {
                 $list = array('body', 'title');
-                $data = $this->CsvTest->csvData($list, 'tsv');
+                $data = $this->CsvTest->csvData($list, "\t");
                 if ($data === false) {
                     print_r('MISS');
                     exit;
