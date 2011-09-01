@@ -39,13 +39,19 @@ TMP . csv_import_upload.[拡張子]にファイルが一時的に生成されて
 ##コントローラ##
 
 ※DBにデータを保存※
+
 基本的には$list(カラム名の配列)を引数にcsvSaveメソッドを呼び出す。
+
 csvSaveの引数は以下の通り。
 
 @array $colimn_list カラム名を並び順に(必須
+
 @bool $clear_flag DBを初期化するかどうか。(デフォルトは初期化しない)
+
 @param $delimiter 区切り文字を設定 (デフォルトは","で"\t"や"|"などを指定することが可能)
+
 @array $conditions 初期化条件　初期化条件がある場合は設定可能。(一部データだけを削除する場合など)
+
 @param $column_name カラム名を設定
 
 
@@ -75,7 +81,9 @@ csvSaveの引数は以下の通り。
 csvDataの引数は以下の通り。
 
 @array $colimn_list カラム名を並び順に(必須
+
 @param $delimiter 区切り文字を設定 (デフォルトは","で"\t"や"|"などを指定することが可能)
+
 @param $column_name カラム名を設定
 
 
