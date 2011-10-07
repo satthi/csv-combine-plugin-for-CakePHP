@@ -1,4 +1,4 @@
-# CsvImport plugin for CakePHP VERSION 0.2#
+# CsvCombine plugin for CakePHP VERSION 0.2#
 PHP versions  5
 CakePHP version 1.3
 
@@ -6,6 +6,7 @@ CakePHP version 1.3
 
 * 2011/09/01 ver 0.2 :拡張子の指定を完全に外して、区切り文字で指定するよう変更。タブ区切りのtxtファイルなども使用可能に。
 
+* 2011/10/06 プラグイン名を変更(CSV出力にも対応しようと思ったので。)
 
 ## 特徴 ##
 
@@ -13,7 +14,7 @@ CakePHP version 1.3
 
 ## 準備 ##
 
-app/plugin内にcsv_importフォルダを設置
+app/plugin内にcsv_combineフォルダを設置
 
 app_modelもしくは該当モデルに以下の記述
 
