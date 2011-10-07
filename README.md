@@ -127,24 +127,22 @@ exportの引数は以下の通り。
 @param $directory 一時保存ディレクトリ(デフォルトはTMP,最終的にファイルを削除をする)
 
 
-?php
-
-class CsvTestsController extends AppController {
-
-    var $name = 'CsvTests';
-    var $components = array('CsvImport.CsvExport');
-
-    function index() {
-        $list[] = array(
-            'a,a"a', 'bbb', 'ccc'
-        );
-        $list[] = array(
-            'ddd', '', 'fff'
-        );
-        $this->CsvExport->export($list);
-        
+    <?php
+    class CsvTestsController extends AppController {
+        var $name = 'CsvTests';
+        var $components = array('CsvImport.CsvExport');
+    
+        function index() {
+            $list[] = array(
+                'a,a"a', 'bbb', 'ccc'
+            );
+                $list[] = array(
+                'ddd', '', 'fff'
+            );
+            $this->CsvExport->export($list);
+            
+        }
     }
-}
 
 
 ##ビュー##
