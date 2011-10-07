@@ -16,7 +16,7 @@ CakePHP version 1.3
 
 app/plugin内にcsv_combineフォルダを設置
 
-app_modelもしくは該当モデルに以下の記述
+CSV入力時にはapp_modelもしくは該当モデルに以下の記述
 
 behavior宣言の後ろの配列は記載しなくても問題なし
 
@@ -107,6 +107,45 @@ csvDataの引数は以下の通り。
             }
         }
     }
+
+
+
+※CSVを出力する※
+
+CsvImport.CsvExportのコンポーネントを呼び出す
+
+基本的には$list(出力する配列)を引数にexportメソッドを呼び出す。
+
+exportの引数は以下の通り。
+
+@array $list 出力のための配列(二次元配列が基本)
+
+@param $file_name 出力ファイル名(デフォルトはexport.csv)
+
+@param $delimiter 区切り文字の設定(デフォルトは",")
+
+@param $directory 一時保存ディレクトリ(デフォルトはTMP,最終的に削除をする)
+
+
+?php
+
+class CsvTestsController extends AppController {
+
+    var $name = 'CsvTests';
+    var $components = array('CsvImport.CsvExport');
+
+    function index() {
+        $list[] = array(
+            'a,a"a', 'bbb', 'ccc'
+        );
+        $list[] = array(
+            'ddd', '', 'fff'
+        );
+        $this->CsvExport->export($list);
+        
+    }
+}
+
 
 ##ビュー##
 フォームが自動で生成される。
