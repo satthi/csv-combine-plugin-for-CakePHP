@@ -124,7 +124,7 @@ exportの引数は以下の通り。
 
 @param $delimiter 区切り文字の設定(デフォルトは",")
 
-@param $directory 一時保存ディレクトリ(デフォルトはTMP,最終的に削除をする)
+@param $directory 一時保存ディレクトリ(デフォルトはTMP,最終的にファイルを削除をする)
 
 
 ?php
