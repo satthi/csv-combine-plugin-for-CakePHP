@@ -26,7 +26,7 @@ class CsvImportBehavior extends ModelBehavior {
      *
      * @array $colimn_list カラム名を並び順に(必須
      * @bool $clear_flag DBを初期化するかどうか。(デフォルトは初期化しない)
-     * @param $delimiter 区切り文字を設定 (デフォルトはnullでcsvやtsvなどの拡張子に応じた区切り文字が設定される)
+     * @param $delimiter 区切り文字を設定 (デフォルトは","で"\t"や"|"などを指定することが可能)
      * @array $conditions 初期化条件　初期化条件がある場合は設定可能。(一部データだけを削除する場合など)
      * @param $column_name カラム名を設定
      */
@@ -70,7 +70,7 @@ class CsvImportBehavior extends ModelBehavior {
      * csvData
      *
      * @array $colimn_list カラム名を並び順に(必須
-     * @param $delimiter 区切り文字を設定 (デフォルトはnullでcsvやtsvなどの拡張子に応じた区切り文字が設定される)
+     * @param $delimiter 区切り文字を設定 (デフォルトは","で"\t"や"|"などを指定することが可能)
      * @param $column_name カラム名を設定
      */
 
@@ -121,14 +121,15 @@ class CsvImportBehavior extends ModelBehavior {
             mb_convert_variables('UTF-8', 'SJIS-win', $csvData);
             $i = 0;
             foreach ($csvData as $line) {
-                $record = explode($delimiter, $line);
+//                $record = explode($delimiter, $line);
+                $record = $this->parseCSV($line, $delimiter);
 
                 $this->data[$model->alias] = array();
                 foreach ($column_list as $k => $v) {
-                    if (isset($record[$k])) {
+                    if (!empty($record[$k])) {
                         //先頭と末尾の"を削除
-                        $b = preg_replace('/^\"/', '', $record[$k]);
-                        $b = preg_replace('/\"$/', '', $b);
+//                        $b = preg_replace('/^\"/', '', $record[$k]);
+//                        $b = preg_replace('/\"$/', '', $b);
                         //カラムの数だけセット
                         $this->data[$model->alias] = Set::merge(
                                         $this->data[$model->alias],
@@ -194,14 +195,16 @@ class CsvImportBehavior extends ModelBehavior {
             mb_convert_variables('UTF-8', 'SJIS-win', $csvData);
             $i = 0;
             foreach ($csvData as $line) {
-                $record = explode($delimiter, $line);
+//                $record = explode($delimiter, $line);
+                $record = $this->parseCSV($line, $delimiter);
 
                 $this->data[$model->alias] = array();
                 foreach ($column_list as $k => $v) {
-                    if (isset($record[$k])) {
+                    if (!empty($record[$k])) {
                         //先頭と末尾の"を削除
-                        $b = preg_replace('/^\"/', '', $record[$k]);
-                        $b = preg_replace('/\"$/', '', $b);
+//                        $b = preg_replace('/^\"/', '', $record[$k]);
+//                        $b = preg_replace('/\"$/', '', $b);
+                        $b = $record[$k];
                         //カラムの数だけセット
                         $this->data[$model->alias] = Set::merge(
                                         $this->data[$model->alias],
@@ -224,6 +227,23 @@ class CsvImportBehavior extends ModelBehavior {
             return false;
         }
         return $data;
+    }
+
+    private function parseCSV($line, $delimiter) {
+        $pattern = '/(?:^|' . $delimiter . ')(?:"((?:[^"]|"")*)"|([^' . $delimiter . '"]*))/';
+        preg_match_all($pattern, $line, $matches);
+        $ret_array = array();
+        for ($i = 0; $i < count($matches[0]); $i++) {
+            if ($matches[1][$i]) {
+                $ret_array[] = preg_replace('/""/', '"', $matches[1][$i]);
+            } elseif ($matches[2][$i]) {
+                $ret_array[] = $matches[2][$i];
+            } else {
+                //空は詰めるわけではないし、必要なカラムかどうかの判別はここではない。
+                $ret_array[] = '';
+            }
+        }
+        return $ret_array;
     }
 
 }
