@@ -132,7 +132,7 @@ exportの引数は以下の通り。
     <?php
     class CsvTestsController extends AppController {
         var $name = 'CsvTests';
-        var $components = array('CsvImport.CsvExport');
+        var $components = array('CsvCombine.CsvExport');
     
         function index() {
             $list[] = array(
