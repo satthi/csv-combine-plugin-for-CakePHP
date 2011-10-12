@@ -157,7 +157,7 @@ class CsvImportBehavior extends ModelBehavior {
             if ($clear_flag == true) {
                 if (empty($conditions)) {
                     //要は全部削除する
-                    if (!$instance->deleteAll(array('id >=' => 1))) {
+                    if (!$instance->deleteAll(array($mode->alias . '.id >=' => 1))) {
                         return false;
                     }
                 } else {
