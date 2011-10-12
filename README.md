@@ -1,12 +1,14 @@
 # CsvCombine plugin for CakePHP VERSION 0.3#
 PHP versions  5
-CakePHP version 1.3
+CakePHP version 2
 
-## 更新履歴 ##
+## 更新履歴 ##a
 
 * 2011/09/01 ver 0.2 :拡張子の指定を完全に外して、区切り文字で指定するよう変更。タブ区切りのtxtファイルなども使用可能に。
 
 * 2011/10/06 ver 0.3 :プラグイン名を変更、CSV出力に対応
+
+* 2011/10/12 var 0.3.2 : CakePHP2.0に対応した形でブランチを作成。
 
 ## 特徴 ##
 
@@ -14,9 +16,9 @@ CakePHP version 1.3
 
 ## 準備 ##
 
-app/plugin内にcsv_combineフォルダを設置
+app/Plugin内にCsvCombineフォルダを設置
 
-CSV入力時にはapp_modelもしくは該当モデルに以下の記述
+CSV入力時にはAppModelもしくは該当モデルに以下の記述
 
 behavior宣言の後ろの配列は記載しなくても問題なし
 
@@ -59,7 +61,7 @@ csvSaveの引数は以下の通り。
     <?php
     class CsvTestsController extends AppController {
         var $name = 'CsvTests';
-        var $helpers = array('CsvImport.CsvUpload');
+        var $helpers = array('CsvCombine.CsvUpload');
         function index() {
             if (!empty($this->data)) {
                 $list = array('body','title');
@@ -93,7 +95,7 @@ csvDataの引数は以下の通り。
     <?php
     class CsvTestsController extends AppController {
         var $name = 'CsvTests';
-        var $helpers = array('CsvImport.CsvUpload');
+        var $helpers = array('CsvCombine.CsvUpload');
         function index() {
             if (!empty($this->data)) {
                 $list = array('body', 'title');
@@ -130,7 +132,7 @@ exportの引数は以下の通り。
     <?php
     class CsvTestsController extends AppController {
         var $name = 'CsvTests';
-        var $components = array('CsvImport.CsvExport');
+        var $components = array('CsvCombine.CsvExport');
     
         function index() {
             $list[] = array(
