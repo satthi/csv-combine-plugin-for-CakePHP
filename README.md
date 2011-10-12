@@ -30,7 +30,7 @@ TMP . csv_import_upload.[拡張子]にファイルが一時的に生成されて
     <?php
         class AppModel extends Model {
             var $actsAs = array(
-                'CsvImport.CsvImport' =>
+                'CsvCombine.CsvImport' =>
                 array(
                     'csv_directory' => TMP,
                     'csv_path' => 'test'
@@ -61,7 +61,7 @@ csvSaveの引数は以下の通り。
     <?php
     class CsvTestsController extends AppController {
         var $name = 'CsvTests';
-        var $helpers = array('CsvImport.CsvUpload');
+        var $helpers = array('CsvCombine.CsvUpload');
         function index() {
             if (!empty($this->data)) {
                 $list = array('body','title');
@@ -95,7 +95,7 @@ csvDataの引数は以下の通り。
     <?php
     class CsvTestsController extends AppController {
         var $name = 'CsvTests';
-        var $helpers = array('CsvImport.CsvUpload');
+        var $helpers = array('CsvCombine.CsvUpload');
         function index() {
             if (!empty($this->data)) {
                 $list = array('body', 'title');
