@@ -131,6 +131,7 @@ class CsvImportBehavior extends ModelBehavior {
 //                        $b = preg_replace('/^\"/', '', $record[$k]);
 //                        $b = preg_replace('/\"$/', '', $b);
                         //カラムの数だけセット
+                        $b = $record[$k]
                         $this->data[$model->alias] = Set::merge(
                                         $this->data[$model->alias],
                                         array($v => $b)
