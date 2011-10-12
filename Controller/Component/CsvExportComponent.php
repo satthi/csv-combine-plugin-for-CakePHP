@@ -7,7 +7,7 @@
  * @since CakePHP(tm) v 1.3
  * @license http://www.opensource.org/licenses/mit-license.php The MIT License
  */
-class CsvExportComponent extends Object {
+class CsvExportComponent extends Component {
 
     var $_controller;
 

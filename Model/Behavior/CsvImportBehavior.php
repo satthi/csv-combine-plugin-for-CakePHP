@@ -36,12 +36,12 @@ class CsvImportBehavior extends ModelBehavior {
         if ($column_list == array()) {
             return false;
         }
-        $params = Router::getParams();
+        $params = Router::getRequest();
         //$this->dataの中身を取得
-        if (empty($params['data'])) {
+        if (!isset($params->data)) {
             return false;
         }
-        $data = $params['data'];
+        $data = $params->data;
         //モデル名が設定されてないときはコントローラ名からモデル名を取得
 
         ini_set("memory_limit", -1);
@@ -75,12 +75,12 @@ class CsvImportBehavior extends ModelBehavior {
      */
 
     function csvData(&$model, $column_list = array(), $delimiter = ",", $column_name = 'csv') {
-        $params = Router::getParams();
+        $params = Router::getRequest();
         //$this->dataの中身を取得
-        if (empty($params['data'])) {
+        if (!isset($params->data)) {
             return false;
         }
-        $data = $params['data'];
+        $data = $params->data;
         //モデル名が設定されてないときはコントローラ名からモデル名を取得
         ini_set("memory_limit", -1);
         set_time_limit(0);
@@ -121,17 +121,13 @@ class CsvImportBehavior extends ModelBehavior {
             mb_convert_variables('UTF-8', 'SJIS-win', $csvData);
             $i = 0;
             foreach ($csvData as $line) {
-//                $record = explode($delimiter, $line);
                 $record = $this->parseCSV($line, $delimiter);
 
                 $this->data[$model->alias] = array();
                 foreach ($column_list as $k => $v) {
                     if (!empty($record[$k])) {
                         //先頭と末尾の"を削除
-//                        $b = preg_replace('/^\"/', '', $record[$k]);
-//                        $b = preg_replace('/\"$/', '', $b);
-                        //カラムの数だけセット
-                        $b = $record[$k]
+                        $b = $record[$k];
                         $this->data[$model->alias] = Set::merge(
                                         $this->data[$model->alias],
                                         array($v => $b)
@@ -157,7 +153,7 @@ class CsvImportBehavior extends ModelBehavior {
             if ($clear_flag == true) {
                 if (empty($conditions)) {
                     //要は全部削除する
-                    if (!$instance->deleteAll(array($mode->alias . '.id >=' => 1))) {
+                    if (!$instance->deleteAll(array($model->alias . '.id >=' => 1))) {
                         return false;
                     }
                 } else {
@@ -196,15 +192,12 @@ class CsvImportBehavior extends ModelBehavior {
             mb_convert_variables('UTF-8', 'SJIS-win', $csvData);
             $i = 0;
             foreach ($csvData as $line) {
-//                $record = explode($delimiter, $line);
                 $record = $this->parseCSV($line, $delimiter);
 
                 $this->data[$model->alias] = array();
                 foreach ($column_list as $k => $v) {
                     if (!empty($record[$k])) {
                         //先頭と末尾の"を削除
-//                        $b = preg_replace('/^\"/', '', $record[$k]);
-//                        $b = preg_replace('/\"$/', '', $b);
                         $b = $record[$k];
                         //カラムの数だけセット
                         $this->data[$model->alias] = Set::merge(
