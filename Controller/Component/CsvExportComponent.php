@@ -35,6 +35,7 @@ class CsvExportComponent extends Component {
         ini_set("memory_limit", -1);
         set_time_limit(0);
         $csv_list = array();
+        mb_convert_variables('SJIS-win', 'UTF-8', $list);
         //$listにカンマか"がいた時の対応
         if (isset($list)) {
             if (is_array($list)) {
