@@ -125,7 +125,7 @@ class CsvImportBehavior extends ModelBehavior {
 
                 $this->data[$model->alias] = array();
                 foreach ($column_list as $k => $v) {
-                    if (!empty($record[$k])) {
+                    if (isset($record[$k])) {
                         //先頭と末尾の"を削除
                         $b = $record[$k];
                         $this->data[$model->alias] = Set::merge(
@@ -196,7 +196,7 @@ class CsvImportBehavior extends ModelBehavior {
 
                 $this->data[$model->alias] = array();
                 foreach ($column_list as $k => $v) {
-                    if (!empty($record[$k])) {
+                    if (isset($record[$k])) {
                         //先頭と末尾の"を削除
                         $b = $record[$k];
                         //カラムの数だけセット
@@ -228,9 +228,9 @@ class CsvImportBehavior extends ModelBehavior {
         preg_match_all($pattern, $line, $matches);
         $ret_array = array();
         for ($i = 0; $i < count($matches[0]); $i++) {
-            if ($matches[1][$i]) {
+            if (isset($matches[1][$i])) {
                 $ret_array[] = preg_replace('/""/', '"', $matches[1][$i]);
-            } elseif ($matches[2][$i]) {
+            } elseif (isset($matches[2][$i])) {
                 $ret_array[] = $matches[2][$i];
             } else {
                 //空は詰めるわけではないし、必要なカラムかどうかの判別はここではない。
