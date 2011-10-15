@@ -235,9 +235,9 @@ class CsvImportBehavior extends ModelBehavior {
         preg_match_all($pattern, $line, $matches);
         $ret_array = array();
         for ($i = 0; $i < count($matches[0]); $i++) {
-            if (isset($matches[1][$i])) {
+            if (isset($matches[1][$i])i && $matches[1][$i] !== '') {
                 $ret_array[] = preg_replace('/""/', '"', $matches[1][$i]);
-            } elseif (isset($matches[2][$i])) {
+            } elseif (isset($matches[2][$i]) && $matches[2][$i] !== '') {
                 $ret_array[] = $matches[2][$i];
             } else {
                 //空は詰めるわけではないし、必要なカラムかどうかの判別はここではない。
