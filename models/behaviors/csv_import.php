@@ -29,9 +29,11 @@ class CsvImportBehavior extends ModelBehavior {
      * @param $delimiter 区切り文字を設定 (デフォルトは","で"\t"や"|"などを指定することが可能)
      * @array $conditions 初期化条件　初期化条件がある場合は設定可能。(一部データだけを削除する場合など)
      * @param $column_name カラム名を設定
+     * @param $array_encoding 出力する配列のエンコード(デフォルトはUTF-8
+     * @param $import_encoding 入力するファイルのエンコード(デフォルトはSJIS-win
      */
 
-    function csvSave(&$model, $column_list = array(), $clear_flag = false, $delimiter = ",", $conditions = array(), $column_name = 'csv') {
+    function csvSave(&$model, $column_list = array(), $clear_flag = false, $delimiter = ",", $conditions = array(), $column_name = 'csv',$array_encoding = 'UTF-8',$import_encoding = 'SJIS-win') {
         //データやカラムリストがない場合はfalse
         if ($column_list == array()) {
             return false;
@@ -55,7 +57,7 @@ class CsvImportBehavior extends ModelBehavior {
         if (is_uploaded_file($up_file)) {
             move_uploaded_file($up_file, $fileName);
             //データが保存できた時
-            if ($this->_loadFormCsv($model, $fileName, $column_list, $clear_flag, $conditions, $delimiter)) {
+            if ($this->_loadFormCsv($model, $fileName, $column_list, $clear_flag, $conditions, $delimiter,$array_encoding,$import_encoding)) {
                 unlink($this->settings[$model->alias]['csv_directory'] . $this->settings[$model->alias]['csv_path'] . '.' . $ext);
                 return true;
             } else {
@@ -72,9 +74,11 @@ class CsvImportBehavior extends ModelBehavior {
      * @array $colimn_list カラム名を並び順に(必須
      * @param $delimiter 区切り文字を設定 (デフォルトは","で"\t"や"|"などを指定することが可能)
      * @param $column_name カラム名を設定
+     * @param $array_encoding 出力する配列のエンコード(デフォルトはUTF-8
+     * @param $import_encoding 入力するファイルのエンコード(デフォルトはSJIS-win
      */
 
-    function csvData(&$model, $column_list = array(), $delimiter = ",", $column_name = 'csv') {
+    function csvData(&$model, $column_list = array(), $delimiter = ",", $column_name = 'csv',$array_encoding = 'UTF-8',$import_encoding = 'SJIS-win') {
         $params = Router::getParams();
         //$this->dataの中身を取得
         if (empty($params['data'])) {
@@ -93,7 +97,7 @@ class CsvImportBehavior extends ModelBehavior {
         if (is_uploaded_file($up_file)) {
             move_uploaded_file($up_file, $fileName);
             //データが保存できた時
-            $data = $this->_loadDataCsv($model, $fileName, $column_list, $delimiter);
+            $data = $this->_loadDataCsv($model, $fileName, $column_list, $delimiter,$array_encoding,$import_encoding);
             unlink($this->settings[$model->alias]['csv_directory'] . $this->settings[$model->alias]['csv_path'] . '.' . $ext);
             return $data;
         } else {
@@ -109,16 +113,18 @@ class CsvImportBehavior extends ModelBehavior {
      * @bool $clear_flag 初期化フラグ
      * @array $conditions 初期化条件
      * @param $delimiter 区切り文字
+     * @param $array_encoding
+     * @param $import_encoding
      */
 
-    private function _loadFormCsv($model, $fileName, $column_list, $clear_flag, $conditions, $delimiter) {
+    private function _loadFormCsv($model, $fileName, $column_list, $clear_flag, $conditions, $delimiter,$array_encoding,$import_encoding) {
         //保存をするのでモデルを読み込み
         $instance = ClassRegistry::init($model->alias);
         try {
             $csvData = file($fileName, FILE_SKIP_EMPTY_LINES | FILE_IGNORE_NEW_LINES);
             //配列の中身をまとめて文字コード変換
             //Csv、Tsvの文字コードがSJISなので変換しないと文字化け。
-            mb_convert_variables('UTF-8', 'SJIS-win', $csvData);
+            mb_convert_variables($array_encoding, $import_encoding, $csvData);
             $i = 0;
             foreach ($csvData as $line) {
 //                $record = explode($delimiter, $line);
@@ -184,16 +190,18 @@ class CsvImportBehavior extends ModelBehavior {
      * @param $fileName ファイル名
      * @array $colimn_list カラムリスト
      * @param $delimiter 区切り文字
+     * @param $array_encoding
+     * @param $import_encoding
      */
 
-    private function _loadDataCsv($model, $fileName, $column_list, $delimiter) {
+    private function _loadDataCsv($model, $fileName, $column_list, $delimiter,$array_encoding,$import_encoding) {
         //保存をするのでモデルを読み込み
         $instance = ClassRegistry::init($model->alias);
         try {
             $csvData = file($fileName, FILE_SKIP_EMPTY_LINES | FILE_IGNORE_NEW_LINES);
             //配列の中身をまとめて文字コード変換
             //Csv、Tsvの文字コードがSJISなので変換しないと文字化け。
-            mb_convert_variables('UTF-8', 'SJIS-win', $csvData);
+            mb_convert_variables($array_encoding, $import_encoding, $csvData);
             $i = 0;
             foreach ($csvData as $line) {
 //                $record = explode($delimiter, $line);
