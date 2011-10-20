@@ -27,15 +27,17 @@ class CsvExportComponent extends Component {
      * @param $file_name 出力ファイル名(デフォルトはexport.csv)
      * @param $delimiter 区切り文字の設定(デフォルトは",")
      * @param $directory 一時保存ディレクトリ(デフォルトはTMP,最終的に削除をする)
+     * @param $export_encoding 入力するファイルのエンコード(デフォルトはSJIS-win
+     * @param $array_encoding 出力する配列のエンコード(デフォルトはUTF-8
      */
 
-    function export($list, $file_name = 'export.csv', $delimiter = ",", $directory = TMP) {
+    function export($list, $file_name = 'export.csv', $delimiter = ",", $directory = TMP,$export_encoding = 'SJIS-win',$array_encoding = 'UTF-8') {
         $this->layout = null;
         Configure::write('debug', 0);
         ini_set("memory_limit", -1);
         set_time_limit(0);
         $csv_list = array();
-        mb_convert_variables('SJIS-win', 'UTF-8', $list);
+        mb_convert_variables($export_encoding, $array_encoding, $list);
         //$listにカンマか"がいた時の対応
         if (isset($list)) {
             if (is_array($list)) {
