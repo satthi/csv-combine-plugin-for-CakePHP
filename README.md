@@ -30,15 +30,17 @@ TMP . csv_import_upload.[拡張子]にファイルが一時的に生成されて
 
 
     <?php
-        class AppModel extends Model {
-            var $actsAs = array(
-                'CsvCombine.CsvImport' =>
-                array(
-                    'csv_directory' => TMP,
-                    'csv_path' => 'test'
-                    )
-            );
-        }
+    App::uses('AppModel', 'Model');
+    CakePlugin::load('CsvCombine');
+    class AppModel extends Model {
+        var $actsAs = array(
+            'CsvCombine.CsvImport' =>
+            array(
+                'csv_directory' => TMP,
+                'csv_path' => 'test'
+                )
+        );
+    }
 
 ## 使い方 ##
 ##コントローラ##
@@ -65,11 +67,12 @@ csvSaveの引数は以下の通り。
 
 
     <?php
+    App::uses('AppController', 'Controller');
     class CsvTestsController extends AppController {
         var $name = 'CsvTests';
         var $helpers = array('CsvCombine.CsvUpload');
         function index() {
-            if (!empty($this->data)) {
+            if (!empty($this->request->is('post')) {
                 $list = array('body','title');
                 $this->CsvTest->begin();
                 if ($this->CsvTest->csvSave($list,true,",",array('id' < 5))) {
@@ -103,11 +106,12 @@ csvDataの引数は以下の通り。
 
 
     <?php
+    App::uses('AppController', 'Controller');
     class CsvTestsController extends AppController {
         var $name = 'CsvTests';
         var $helpers = array('CsvCombine.CsvUpload');
         function index() {
-            if (!empty($this->data)) {
+            if (!empty($this->request->is('post')) {
                 $list = array('body', 'title');
                 $data = $this->CsvTest->csvData($list, "\t");
                 if ($data === false) {
@@ -144,6 +148,8 @@ exportの引数は以下の通り。
 
 
     <?php
+    App::uses('AppController', 'Controller');
+    CakePlugin::load('CsvCombine');
     class CsvTestsController extends AppController {
         var $name = 'CsvTests';
         var $components = array('CsvCombine.CsvExport');
