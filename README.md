@@ -72,7 +72,7 @@ csvSaveの引数は以下の通り。
         var $name = 'CsvTests';
         var $helpers = array('CsvCombine.CsvUpload');
         function index() {
-            if (!empty($this->request->is('post')) {
+            if ($this->request->is('post')) {
                 $list = array('body','title');
                 $this->CsvTest->begin();
                 if ($this->CsvTest->csvSave($list,true,",",array('id' < 5))) {
@@ -111,7 +111,7 @@ csvDataの引数は以下の通り。
         var $name = 'CsvTests';
         var $helpers = array('CsvCombine.CsvUpload');
         function index() {
-            if (!empty($this->request->is('post')) {
+            if ($this->request->is('post')) {
                 $list = array('body', 'title');
                 $data = $this->CsvTest->csvData($list, "\t");
                 if ($data === false) {
