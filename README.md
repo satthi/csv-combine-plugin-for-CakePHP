@@ -138,9 +138,9 @@ exportの引数は以下の通り。
 
 @param $directory 一時保存ディレクトリ(デフォルトはTMP,最終的にファイルを削除をする)
 
-@param $export_encoding 入力するファイルのエンコード(デフォルトはSJIS-win
+@param $export_encoding 出力するファイルのエンコード(デフォルトはSJIS-win
 
-@param $array_encoding 出力する配列のエンコード(デフォルトはUTF-8
+@param $array_encoding 入力する配列のエンコード(デフォルトはUTF-8
 
 
     <?php
