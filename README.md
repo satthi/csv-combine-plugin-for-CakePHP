@@ -10,6 +10,8 @@ CakePHP version 1.3
 
 * 2011/10/12 var 0.3.2 : CakePHP2.0対応用のブランチを作成(cake2というブランチです。)
 
+* 2011/10/20 var 0.4 : 文字コードの変換をオプションで指定できるように対応
+
 ## 特徴 ##
 
 * CSVやTSVファイルをアップロードしてDBにデータを保存したり、配列を返したりする。
@@ -57,6 +59,10 @@ csvSaveの引数は以下の通り。
 
 @param $column_name カラム名を設定
 
+@param $array_encoding 出力する配列のエンコード(デフォルトはUTF-8
+
+@param $import_encoding 入力するファイルのエンコード(デフォルトはSJIS-win
+
 
     <?php
     class CsvTestsController extends AppController {
@@ -90,6 +96,10 @@ csvDataの引数は以下の通り。
 @param $delimiter 区切り文字を設定 (デフォルトは","で"\t"や"|"などを指定することが可能)
 
 @param $column_name カラム名を設定
+
+@param $array_encoding 出力する配列のエンコード(デフォルトはUTF-8
+
+@param $import_encoding 入力するファイルのエンコード(デフォルトはSJIS-win
 
 
     <?php
@@ -127,6 +137,10 @@ exportの引数は以下の通り。
 @param $delimiter 区切り文字の設定(デフォルトは",")
 
 @param $directory 一時保存ディレクトリ(デフォルトはTMP,最終的にファイルを削除をする)
+
+@param $export_encoding 入力するファイルのエンコード(デフォルトはSJIS-win
+
+@param $array_encoding 出力する配列のエンコード(デフォルトはUTF-8
 
 
     <?php
