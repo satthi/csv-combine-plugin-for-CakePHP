@@ -1,4 +1,4 @@
-# CsvCombine plugin for CakePHP VERSION 0.3#
+# CsvCombine plugin for CakePHP VERSION 0.4#
 PHP versions  5
 CakePHP version 2
 
