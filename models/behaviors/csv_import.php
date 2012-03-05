@@ -238,6 +238,17 @@ class CsvImportBehavior extends ModelBehavior {
         return $data;
     }
 
+    /**
+     * parseCSV
+     *
+     * this is a port of the original code written by yossy.
+     *
+     * @author yossy
+     * @author hagiwara
+     *
+     * @see http://yossy.iimp.jp/wp/?p=56
+     * @return array
+     */
     private function parseCSV($line, $delimiter) {
         $pattern = '/(?:^|' . $delimiter . ')(?:"((?:[^"]|"")*)"|([^' . $delimiter . '"]*))/';
         preg_match_all($pattern, $line, $matches);
