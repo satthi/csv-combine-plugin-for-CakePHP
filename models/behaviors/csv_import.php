@@ -51,14 +51,14 @@ class CsvImportBehavior extends ModelBehavior {
         $up_file = $data[$model->alias][$column_name]['tmp_name'];
         $ext = pathinfo($data[$model->alias][$column_name]['name']);
         if (empty($ext)) {
-            $ext = 'txt';
+            $ext['extension'] = 'txt';
         }
-        $fileName = $this->settings[$model->alias]['csv_directory'] . $this->settings[$model->alias]['csv_path'] . '.' . $ext;
+        $fileName = $this->settings[$model->alias]['csv_directory'] . $this->settings[$model->alias]['csv_path'] . '.' . $ext['extension'];
         if (is_uploaded_file($up_file)) {
             move_uploaded_file($up_file, $fileName);
             //データが保存できた時
             if ($this->_loadFormCsv($model, $fileName, $column_list, $clear_flag, $conditions, $delimiter,$array_encoding,$import_encoding)) {
-                unlink($this->settings[$model->alias]['csv_directory'] . $this->settings[$model->alias]['csv_path'] . '.' . $ext);
+                unlink($this->settings[$model->alias]['csv_directory'] . $this->settings[$model->alias]['csv_path'] . '.' . $ext['extension']);
                 return true;
             } else {
                 return false;
@@ -91,14 +91,14 @@ class CsvImportBehavior extends ModelBehavior {
         $up_file = $data[$model->alias][$column_name]['tmp_name'];
         $ext = pathinfo($data[$model->alias][$column_name]['name']);
         if (empty($ext)) {
-            $ext = 'txt';
+            $ext['extension'] = 'txt';
         }
-        $fileName = $this->settings[$model->alias]['csv_directory'] . $this->settings[$model->alias]['csv_path'] . '.' . $ext;
+        $fileName = $this->settings[$model->alias]['csv_directory'] . $this->settings[$model->alias]['csv_path'] . '.' . $ext['extension'];
         if (is_uploaded_file($up_file)) {
             move_uploaded_file($up_file, $fileName);
             //データが保存できた時
             $data = $this->_loadDataCsv($model, $fileName, $column_list, $delimiter,$array_encoding,$import_encoding);
-            unlink($this->settings[$model->alias]['csv_directory'] . $this->settings[$model->alias]['csv_path'] . '.' . $ext);
+            unlink($this->settings[$model->alias]['csv_directory'] . $this->settings[$model->alias]['csv_path'] . '.' . $ext['extension']);
             return $data;
         } else {
             return false;
