@@ -97,7 +97,7 @@ class CsvImportBehavior extends ModelBehavior {
         if (is_uploaded_file($up_file)) {
             move_uploaded_file($up_file, $fileName);
             //データが保存できた時
-            $data = $this->_loadDataCsv($model, $fileName, $column_list, $delimiter,$array_encoding,$import_encoding);
+            $data = $this->loadDataCsv($model, $fileName, $column_list, $delimiter,$array_encoding,$import_encoding);
             unlink($this->settings[$model->alias]['csv_directory'] . $this->settings[$model->alias]['csv_path'] . '.' . $ext['extension']);
             return $data;
         } else {
@@ -121,23 +121,21 @@ class CsvImportBehavior extends ModelBehavior {
         //保存をするのでモデルを読み込み
         $instance = ClassRegistry::init($model->alias);
         try {
-            $csvData = file($fileName, FILE_SKIP_EMPTY_LINES | FILE_IGNORE_NEW_LINES);
-            //配列の中身をまとめて文字コード変換
-            //Csv、Tsvの文字コードがSJISなので変換しないと文字化け。
-            mb_convert_variables($array_encoding, $import_encoding, $csvData);
+            $buf = mb_convert_encoding(file_get_contents($fileName), 'utf-8', 'sjis-win');
+            $data = array();
+            $csvData = array();
+            $file = fopen($fileName,"r");
+            while($data = $this->fgetcsv_reg($file,65536,",")){//CSVファイルを","区切りで配列に
+                mb_convert_variables('UTF-8','SJIS-win',$data);
+                $csvData[] = $data;
+            }
             $i = 0;
             foreach ($csvData as $line) {
-//                $record = explode($delimiter, $line);
-                $record = $this->parseCSV($line, $delimiter);
-
                 $this->data[$model->alias] = array();
                 foreach ($column_list as $k => $v) {
-                    if (isset($record[$k])) {
+                    if (isset($line[$k])) {
                         //先頭と末尾の"を削除
-//                        $b = preg_replace('/^\"/', '', $record[$k]);
-//                        $b = preg_replace('/\"$/', '', $b);
-                        //カラムの数だけセット
-                        $b = $record[$k];
+                        $b = $line[$k];
                         $this->data[$model->alias] = Set::merge(
                                         $this->data[$model->alias],
                                         array($v => $b)
@@ -185,7 +183,7 @@ class CsvImportBehavior extends ModelBehavior {
     }
 
     /*
-     * _loadDataCsv
+     * loadDataCsv
      *
      * @param $fileName ファイル名
      * @array $colimn_list カラムリスト
@@ -194,26 +192,27 @@ class CsvImportBehavior extends ModelBehavior {
      * @param $import_encoding
      */
 
-    private function _loadDataCsv($model, $fileName, $column_list, $delimiter,$array_encoding,$import_encoding) {
+    public function loadDataCsv(&$model, $fileName, $column_list, $delimiter = ",", $column_name = 'csv',$array_encoding = 'utf8',$import_encoding = 'sjis-win') {
         //保存をするのでモデルを読み込み
         $instance = ClassRegistry::init($model->alias);
+        $data = array();
         try {
-            $csvData = file($fileName, FILE_SKIP_EMPTY_LINES | FILE_IGNORE_NEW_LINES);
-            //配列の中身をまとめて文字コード変換
-            //Csv、Tsvの文字コードがSJISなので変換しないと文字化け。
-            mb_convert_variables($array_encoding, $import_encoding, $csvData);
+            $buf = mb_convert_encoding(file_get_contents($fileName), 'utf-8', 'sjis-win');
+            $data = array();
+            $csvData = array();
+            $file = fopen($fileName,"r");
+            while($data = $this->fgetcsv_reg($file,65536,",")){//CSVファイルを","区切りで配列に
+                mb_convert_variables('UTF-8','SJIS-win',$data);
+                $csvData[] = $data;
+            }
+            
             $i = 0;
             foreach ($csvData as $line) {
-//                $record = explode($delimiter, $line);
-                $record = $this->parseCSV($line, $delimiter);
-
                 $this->data[$model->alias] = array();
                 foreach ($column_list as $k => $v) {
-                    if (isset($record[$k])) {
+                    if (isset($line[$k])) {
                         //先頭と末尾の"を削除
-//                        $b = preg_replace('/^\"/', '', $record[$k]);
-//                        $b = preg_replace('/\"$/', '', $b);
-                        $b = $record[$k];
+                        $b = $line[$k];
                         //カラムの数だけセット
                         $this->data[$model->alias] = Set::merge(
                                         $this->data[$model->alias],
@@ -235,11 +234,12 @@ class CsvImportBehavior extends ModelBehavior {
         } catch (Exception $e) {
             return false;
         }
+
         return $data;
     }
 
     /**
-     * parseCSV
+     * fgetcsv_reg
      *
      * this is a port of the original code written by yossy.
      *
@@ -249,21 +249,28 @@ class CsvImportBehavior extends ModelBehavior {
      * @see http://yossy.iimp.jp/wp/?p=56
      * @return array
      */
-    private function parseCSV($line, $delimiter) {
-        $pattern = '/(?:^|' . $delimiter . ')(?:"((?:[^"]|"")*)"|([^' . $delimiter . '"]*))/';
-        preg_match_all($pattern, $line, $matches);
-        $ret_array = array();
-        for ($i = 0; $i < count($matches[0]); $i++) {
-            if (isset($matches[1][$i]) && $matches[1][$i] !== '') {
-                $ret_array[] = preg_replace('/""/', '"', $matches[1][$i]);
-            } elseif (isset($matches[2][$i]) && $matches[2][$i] !== '') {
-                $ret_array[] = $matches[2][$i];
-            } else {
-                //空は詰めるわけではないし、必要なカラムかどうかの判別はここではない。
-                $ret_array[] = '';
-            }
+    function fgetcsv_reg (&$handle, $length = null, $d = ',', $e = '"') {
+        $d = preg_quote($d);
+        $e = preg_quote($e);
+        $_line = "";
+        $eof = false; // Added for PHP Warning.
+        while ( $eof != true ) {
+            $_line .= (empty($length) ? fgets($handle) : fgets($handle, $length));
+            $itemcnt = preg_match_all('/'.$e.'/', $_line, $dummy);
+            if ($itemcnt % 2 == 0) $eof = true;
         }
-        return $ret_array;
+        $_csv_line = preg_replace('/(?:\\r\\n|[\\r\\n])?$/', $d, trim($_line));
+        $_csv_pattern = '/('.$e.'[^'.$e.']*(?:'.$e.$e.'[^'.$e.']*)*'.$e.'|[^'.$d.']*)'.$d.'/';
+
+        preg_match_all($_csv_pattern, $_csv_line, $_csv_matches);
+
+        $_csv_data = $_csv_matches[1];
+
+        for ( $_csv_i=0; $_csv_i<count($_csv_data); $_csv_i++ ) {
+            $_csv_data[$_csv_i] = preg_replace('/^'.$e.'(.*)'.$e.'$/s', '$1', $_csv_data[$_csv_i]);
+            $_csv_data[$_csv_i] = str_replace($e.$e, $e, $_csv_data[$_csv_i]);
+        }
+        return empty($_line) ? false : $_csv_data;
     }
 
 }
