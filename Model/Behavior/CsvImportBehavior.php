@@ -16,7 +16,7 @@ class CsvImportBehavior extends ModelBehavior {
         'csv_path' => self::CSV_IMPORT_FILE_NAME
     );
 
-    function setup(&$model, $config = array()) {
+    function setup(Model $model, $config = array()) {
         $settings = array_merge($this->_defaults, $config);
         $this->settings[$model->alias] = $settings;
     }
