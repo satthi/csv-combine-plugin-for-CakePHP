@@ -97,7 +97,7 @@ class CsvImportBehavior extends ModelBehavior {
         if (is_uploaded_file($up_file)) {
             move_uploaded_file($up_file, $fileName);
             //データが保存できた時
-            $data = $this->loadDataCsv($model, $fileName, $column_list, $delimiter,$array_encoding,$import_encoding);
+            $data = $this->loadDataCsv($model, $fileName, $column_list, $delimiter,$column_name,$array_encoding,$import_encoding);
             unlink($this->settings[$model->alias]['csv_directory'] . $this->settings[$model->alias]['csv_path'] . '.' . $ext['extension']);
             return $data;
         } else {
@@ -121,12 +121,12 @@ class CsvImportBehavior extends ModelBehavior {
         //保存をするのでモデルを読み込み
         $instance = ClassRegistry::init($model->alias);
         try {
-            $buf = mb_convert_encoding(file_get_contents($fileName), 'utf-8', 'sjis-win');
+            $buf = mb_convert_encoding(file_get_contents($fileName), $array_encoding, $import_encoding);
             $data = array();
             $csvData = array();
             $file = fopen($fileName,"r");
-            while($data = $this->fgetcsv_reg($file,65536,",")){//CSVファイルを","区切りで配列に
-                mb_convert_variables('UTF-8','SJIS-win',$data);
+            while($data = $this->fgetcsv_reg($file,65536,$delimiter)){//CSVファイルを","区切りで配列に
+                mb_convert_variables($array_encoding,$import_encoding,$data);
                 $csvData[] = $data;
             }
             $i = 0;
@@ -197,12 +197,12 @@ class CsvImportBehavior extends ModelBehavior {
         $instance = ClassRegistry::init($model->alias);
         $data = array();
         try {
-            $buf = mb_convert_encoding(file_get_contents($fileName), 'utf-8', 'sjis-win');
+            $buf = mb_convert_encoding(file_get_contents($fileName), $array_encoding,$import_encoding);
             $data = array();
             $csvData = array();
             $file = fopen($fileName,"r");
-            while($data = $this->fgetcsv_reg($file,65536,",")){//CSVファイルを","区切りで配列に
-                mb_convert_variables('UTF-8','SJIS-win',$data);
+            while($data = $this->fgetcsv_reg($file,65536,$delimiter)){//CSVファイルを","区切りで配列に
+                mb_convert_variables($array_encoding,$import_encoding,$data);
                 $csvData[] = $data;
             }
             
