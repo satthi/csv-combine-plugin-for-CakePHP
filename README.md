@@ -13,20 +13,20 @@ CakePHP version 3
 
 ## 準備 ##
 
+※copmposer対応しました
+```
+"satthi/csv-combine-plugin-for-cakephp": "dev-master"
+```
+
+********************
+※composerでインストールしないとき
 pluginsディレクトリ内にCsvCombineを設置
 
 bootstrapに以下を記述
 ```
 Plugin::load('CsvCombine', ['autoload' => true]);
 ```
-
-CSV入力時にはapp_modelもしくは該当モデルに以下の記述
-
-behavior宣言の後ろの配列は記載しなくても問題なし
-
-TMP . csv_import_upload.[拡張子]にファイルが一時的に生成されては困るときのみ設定
-
-いずれにしても最終的にはファイルは削除されることになる。
+********************
 
 ## 使い方 ##
 ```
