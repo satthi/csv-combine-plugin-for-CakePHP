@@ -9,7 +9,7 @@
 		{
 			"name": "Satoru Hagiwara",
 			"role": "Author"
-		},
+		}
 	],
 	"support": {
 		"source": "https://github.com/satthi/csv-combine-plugin-for-CakePHP"
