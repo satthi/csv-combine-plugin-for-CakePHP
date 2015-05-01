@@ -1,0 +1,33 @@
+{
+	"name": "satthi/csv-combine-plugin-for-CakePHP",
+	"description": "CakePHP CsvCombine",
+	"type": "cakephp-plugin",
+	"keywords": ["cakephp", "csv"],
+	"homepage": "https://github.com/satthi/csv-combine-plugin-for-CakePHP",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Satoru Hagiwara",
+			"role": "Author"
+		},
+	],
+	"support": {
+		"source": "https://github.com/satthi/csv-combine-plugin-for-CakePHP"
+	},
+	"require": {
+		"cakephp/cakephp": "~3.0"
+	},
+	"require-dev": {
+	},
+	"autoload": {
+		"psr-4": {
+			"CsvCombine\\": "src",
+		}
+	},
+	"autoload-dev": {
+	},
+	"suggest": {
+	},
+	"extra": {
+	}
+}
