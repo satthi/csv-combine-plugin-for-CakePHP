@@ -70,7 +70,7 @@ class CsvController extends AppController
 
     public function import()
     {
-        $import = new CsvImportForm($csv);
+        $import = new CsvImportForm();
         $file = TMP . 'test.csv';
         $column = [
             'key1',
