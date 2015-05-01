@@ -1,5 +1,5 @@
 {
-	"name": "satthi/csv-combine-plugin-for-CakePHP",
+	"name": "satthi/csv-combine-plugin-for-cakephp",
 	"description": "CakePHP CsvCombine",
 	"type": "cakephp-plugin",
 	"keywords": ["cakephp", "csv"],
