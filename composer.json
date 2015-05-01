@@ -21,7 +21,7 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"CsvCombine\\": "src",
+			"CsvCombine\\": "src"
 		}
 	},
 	"autoload-dev": {
