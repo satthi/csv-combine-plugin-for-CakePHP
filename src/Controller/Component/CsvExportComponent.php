@@ -19,7 +19,7 @@ class CsvExportComponent extends Component {
      * 
      * @access public
      */
-    function startup(& $controller) {
+    function startup(Controller $controller) {
         $this->_controller = $controller;
     }
 
@@ -34,7 +34,21 @@ class CsvExportComponent extends Component {
      * @param $array_encoding 出力する配列のエンコード(デフォルトはUTF-8
      */
 
-    function export($list, $file_name = 'export.csv', $delimiter = ",", $directory = TMP,$export_encoding = 'SJIS-win',$array_encoding = 'UTF-8') {
+    public function export($list, $file_name = 'export.csv', $delimiter = ",", $directory = TMP,$export_encoding = 'SJIS-win',$array_encoding = 'UTF-8') {
+        $save_directory = $this->make($list, $file_name , $delimiter , $directory ,$export_encoding ,$array_encoding);
+
+        header('Content-Disposition: attachment; filename="' . basename($save_directory) . '"');
+        header('Content-Type: application/octet-stream');
+        header('Content-Transfer-Encoding: binary');
+        header('Content-Length: ' . filesize($save_directory));
+        readfile($save_directory);
+
+        unlink($save_directory);
+
+        exit;
+    }
+    
+    public function make($list, $file_name = 'export.csv', $delimiter = ",", $directory = TMP,$export_encoding = 'SJIS-win',$array_encoding = 'UTF-8') {
         $this->layout = null;
         Configure::write('debug', 0);
         ini_set("memory_limit", -1);
@@ -72,16 +86,8 @@ class CsvExportComponent extends Component {
         }
 
         fclose($fp);
-
-        header('Content-Disposition: attachment; filename="' . basename($save_directory) . '"');
-        header('Content-Type: application/octet-stream');
-        header('Content-Transfer-Encoding: binary');
-        header('Content-Length: ' . filesize($save_directory));
-        readfile($save_directory);
-
-        unlink($save_directory);
-
-        exit;
+        
+        return $save_directory;
     }
 
     /*
@@ -92,7 +98,8 @@ class CsvExportComponent extends Component {
      * @delimiter 区切り文字
      */
     function _parseCsv($v, $delimiter) {
-        if (preg_match('/[' . $delimiter . '"]/', $v)) {
+        //区切り文字・改行・ダブルクオートの時
+        if (preg_match('/[' . $delimiter . '\\n"]/', $v)) {
             $v = str_replace('"', '""', $v);
             $v = '"' . $v . '"';
         }
