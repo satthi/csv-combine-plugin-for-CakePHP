@@ -2,6 +2,7 @@
 namespace CsvCombine\Controller\Component;
 use Cake\Controller\Component;
 use Cake\Core\Configure;
+use Cake\Event\Event;
 
 /**
   CsvExportComponent  code license:
