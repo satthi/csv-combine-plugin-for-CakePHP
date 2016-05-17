@@ -56,7 +56,6 @@ class FixedLengthExportComponent extends Component {
         Configure::write('debug', 0);
         ini_set("memory_limit", -1);
         set_time_limit(0);
-        $csv_list = array();
         mb_convert_variables($export_encoding, $array_encoding, $list);
         //$listにカンマか"がいた時の対応
         $return_text = '';
