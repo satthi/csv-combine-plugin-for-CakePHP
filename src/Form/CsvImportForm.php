@@ -3,7 +3,6 @@
 namespace CsvCombine\Form;
 
 use Cake\Form\Form;
-use Cake\Form\Schema;
 use Cake\Validation\Validator;
 use Cake\Utility\Hash;
 
@@ -16,7 +15,15 @@ class CsvImportForm extends Form
         return $validator;
     }
 
-
+    /*
+     * loadDataCsv CSV読み込みアクション
+     *
+     * @param string $fileName 固定長テキストファイ
+     * @param array $column_list 各カラム情報(name:カラム名,length:バイト数)
+     * @param string $delimiter 区切り文字(デフォルトは「,」)
+     * @param string $array_encoding 出力するする配列のエンコード(デフォルトはUTF-8
+     * @param string $import_encoding 入力するテキストのエンコード(デフォルトはSJIS-win
+     */
     public function loadDataCsv($fileName, $column_list, $delimiter = ",", $array_encoding = 'utf8',$import_encoding = 'sjis-win')
     {
         //保存をするのでモデルを読み込み
@@ -67,6 +74,10 @@ class CsvImportForm extends Form
      * @author yossy
      * @author hagiwara
      *
+     * @param resource $handle
+     * @param integer $length
+     * @param string $d
+     * @param string $e
      * @see http://yossy.iimp.jp/wp/?p=56
      * @return array
      */
