@@ -51,6 +51,18 @@ class FixedLengthExportComponent extends Component {
 
     }
 
+    /*
+     * export 固定長の作成アクション
+     *
+     * @param array $list 出力のための配列(二次元配列が基本)
+     * @param array $fixed_options 出力のための固定長の設定(各カラムのバイト数)
+     * @param string $file_name 出力ファイル名(デフォルトはexport.txt)
+     * @param string $line_feed_code 改行コード(デフォルトは\r\n)
+     * @param string $directory 一時保存ディレクトリ(デフォルトはTMP,最終的に削除をする)
+     * @param string $export_encoding 出力するファイルのエンコード(デフォルトはSJIS-win
+     * @param string $array_encoding 入力する配列のエンコード(デフォルトはUTF-8
+     */
+
     public function make($list, $fixed_options, $file_name = 'export.txt', $line_feed_code = "\r\n",$directory = TMP,$export_encoding = 'SJIS-win',$array_encoding = 'UTF-8')
     {
         Configure::write('debug', 0);

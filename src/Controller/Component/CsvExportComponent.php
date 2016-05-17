@@ -28,14 +28,13 @@ class CsvExportComponent extends Component {
     /*
      * export CSVの出力アクション
      *
-     * @array $list 出力のための配列(二次元配列が基本)
-     * @param $file_name 出力ファイル名(デフォルトはexport.csv)
-     * @param $delimiter 区切り文字の設定(デフォルトは",")
-     * @param $directory 一時保存ディレクトリ(デフォルトはTMP,最終的に削除をする)
-     * @param $export_encoding 入力するファイルのエンコード(デフォルトはSJIS-win
-     * @param $array_encoding 出力する配列のエンコード(デフォルトはUTF-8
+     * @param array $list 出力のための配列(二次元配列が基本)
+     * @param string $file_name 出力ファイル名(デフォルトはexport.csv)
+     * @param string $delimiter 区切り文字の設定(デフォルトは",")
+     * @param string $directory 一時保存ディレクトリ(デフォルトはTMP,最終的に削除をする)
+     * @param string $export_encoding 入力するファイルのエンコード(デフォルトはSJIS-win
+     * @param string $array_encoding 出力する配列のエンコード(デフォルトはUTF-8
      */
-
     public function export($list, $file_name = 'export.csv', $delimiter = ",", $directory = TMP,$export_encoding = 'SJIS-win',$array_encoding = 'UTF-8')
     {
         $save_directory = $this->make($list, $file_name , $delimiter , $directory ,$export_encoding ,$array_encoding);
@@ -49,6 +48,16 @@ class CsvExportComponent extends Component {
         unlink($save_directory);
     }
 
+    /*
+     * make CSVの生成アクション
+     *
+     * @param array $list 出力のための配列(二次元配列が基本)
+     * @param string $file_name 出力ファイル名(デフォルトはexport.csv)
+     * @param string $delimiter 区切り文字の設定(デフォルトは",")
+     * @param string $directory 一時保存ディレクトリ(デフォルトはTMP,最終的に削除をする)
+     * @param string $export_encoding 入力するファイルのエンコード(デフォルトはSJIS-win
+     * @param string $array_encoding 出力する配列のエンコード(デフォルトはUTF-8
+     */
     public function make($list, $file_name = 'export.csv', $delimiter = ",", $directory = TMP,$export_encoding = 'SJIS-win',$array_encoding = 'UTF-8')
     {
         Configure::write('debug', 0);
@@ -94,8 +103,8 @@ class CsvExportComponent extends Component {
      * _parseCsv
      * csv(など)の形式に変更
      *
-     * @param $v 変換する値
-     * @delimiter 区切り文字
+     * @param text $v 変換する値
+     * @param text $delimiter 区切り文字
      */
     private function _parseCsv($v, $delimiter)
     {
