@@ -10,11 +10,11 @@ class FixedLengthImportForm extends Form
     /*
      * loadData 固定長読み込みアクション
      *
-     * @param string $fileName 固定長テキストファイ
+     * @param text $fileName 固定長テキストファイ
      * @param array $column_list 各カラム情報(name:カラム名,length:バイト数)
-     * @param string $line_feed_code 改行コード(デフォルトは\r\n)
-     * @param string $array_encoding 出力するする配列のエンコード(デフォルトはUTF-8
-     * @param string $import_encoding 入力するテキストのエンコード(デフォルトはSJIS-win
+     * @param text $line_feed_code 改行コード(デフォルトは\r\n)
+     * @param text $array_encoding 出力するする配列のエンコード(デフォルトはUTF-8
+     * @param text $import_encoding 入力するテキストのエンコード(デフォルトはSJIS-win
      */
     public function loadData($fileName, $column_list, $line_feed_code = "\r\n", $array_encoding = 'utf8',$import_encoding = 'sjis-win')
     {

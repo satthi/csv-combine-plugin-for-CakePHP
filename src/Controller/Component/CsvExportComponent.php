@@ -29,11 +29,11 @@ class CsvExportComponent extends Component {
      * export CSVの出力アクション
      *
      * @param array $list 出力のための配列(二次元配列が基本)
-     * @param string $file_name 出力ファイル名(デフォルトはexport.csv)
-     * @param string $delimiter 区切り文字の設定(デフォルトは",")
-     * @param string $directory 一時保存ディレクトリ(デフォルトはTMP,最終的に削除をする)
-     * @param string $export_encoding 入力するファイルのエンコード(デフォルトはSJIS-win
-     * @param string $array_encoding 出力する配列のエンコード(デフォルトはUTF-8
+     * @param text $file_name 出力ファイル名(デフォルトはexport.csv)
+     * @param text $delimiter 区切り文字の設定(デフォルトは",")
+     * @param text $directory 一時保存ディレクトリ(デフォルトはTMP,最終的に削除をする)
+     * @param text $export_encoding 入力するファイルのエンコード(デフォルトはSJIS-win
+     * @param text $array_encoding 出力する配列のエンコード(デフォルトはUTF-8
      */
     public function export($list, $file_name = 'export.csv', $delimiter = ",", $directory = TMP,$export_encoding = 'SJIS-win',$array_encoding = 'UTF-8')
     {
@@ -52,11 +52,11 @@ class CsvExportComponent extends Component {
      * make CSVの生成アクション
      *
      * @param array $list 出力のための配列(二次元配列が基本)
-     * @param string $file_name 出力ファイル名(デフォルトはexport.csv)
-     * @param string $delimiter 区切り文字の設定(デフォルトは",")
-     * @param string $directory 一時保存ディレクトリ(デフォルトはTMP,最終的に削除をする)
-     * @param string $export_encoding 入力するファイルのエンコード(デフォルトはSJIS-win
-     * @param string $array_encoding 出力する配列のエンコード(デフォルトはUTF-8
+     * @param text $file_name 出力ファイル名(デフォルトはexport.csv)
+     * @param text $delimiter 区切り文字の設定(デフォルトは",")
+     * @param text $directory 一時保存ディレクトリ(デフォルトはTMP,最終的に削除をする)
+     * @param text $export_encoding 入力するファイルのエンコード(デフォルトはSJIS-win
+     * @param text $array_encoding 出力する配列のエンコード(デフォルトはUTF-8
      */
     public function make($list, $file_name = 'export.csv', $delimiter = ",", $directory = TMP,$export_encoding = 'SJIS-win',$array_encoding = 'UTF-8')
     {
