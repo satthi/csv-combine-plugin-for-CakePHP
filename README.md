@@ -1,6 +1,7 @@
 # CsvCombine plugin for CakePHP3 #
 
 [![Build Status](https://travis-ci.org/satthi/csv-combine-plugin-for-CakePHP.svg?branch=master)](https://travis-ci.org/satthi/csv-combine-plugin-for-CakePHP)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/satthi/csv-combine-plugin-for-CakePHP/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/satthi/csv-combine-plugin-for-CakePHP/?branch=master)
 
 PHP versions  5
 CakePHP version 3
