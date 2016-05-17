@@ -8,6 +8,10 @@ php:
 
 sudo: false
 
+env:
+  global:
+    - DEFAULT=1
+
 matrix:
   fast_finish: true
   include:
