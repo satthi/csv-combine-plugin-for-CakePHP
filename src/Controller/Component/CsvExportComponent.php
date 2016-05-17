@@ -5,7 +5,7 @@ use Cake\Core\Configure;
 use Cake\Event\Event;
 
 /**
-  CsvExportComponent  code license:
+ * CsvExportComponent  code license:
  *
  * @copyright Copyright (C) 2011 hagiwara.
  * @since CakePHP(tm) v 1.3
@@ -13,14 +13,15 @@ use Cake\Event\Event;
  */
 class CsvExportComponent extends Component {
 
-    var $_controller;
+    private $_controller;
 
     /**
      * コンポーネント初期化
-     * 
+     *
      * @access public
      */
-    public function startup(Event $event) {
+    public function startup(Event $event)
+    {
         $this->_controller = $event->subject();
     }
 
@@ -35,7 +36,8 @@ class CsvExportComponent extends Component {
      * @param $array_encoding 出力する配列のエンコード(デフォルトはUTF-8
      */
 
-    public function export($list, $file_name = 'export.csv', $delimiter = ",", $directory = TMP,$export_encoding = 'SJIS-win',$array_encoding = 'UTF-8') {
+    public function export($list, $file_name = 'export.csv', $delimiter = ",", $directory = TMP,$export_encoding = 'SJIS-win',$array_encoding = 'UTF-8')
+    {
         $save_directory = $this->make($list, $file_name , $delimiter , $directory ,$export_encoding ,$array_encoding);
 
         header('Content-Disposition: attachment; filename="' . basename($save_directory) . '"');
@@ -45,12 +47,10 @@ class CsvExportComponent extends Component {
         readfile($save_directory);
 
         unlink($save_directory);
-
-        exit;
     }
-    
-    public function make($list, $file_name = 'export.csv', $delimiter = ",", $directory = TMP,$export_encoding = 'SJIS-win',$array_encoding = 'UTF-8') {
-        $this->layout = null;
+
+    public function make($list, $file_name = 'export.csv', $delimiter = ",", $directory = TMP,$export_encoding = 'SJIS-win',$array_encoding = 'UTF-8')
+    {
         Configure::write('debug', 0);
         ini_set("memory_limit", -1);
         set_time_limit(0);
@@ -64,8 +64,7 @@ class CsvExportComponent extends Component {
                         foreach ($list1 as $m => $v) {
                             if (is_array($v)){
                                 //3次元以上の配列の時はエラー
-                                echo 'error';
-                                exit;
+                                throw new MethodNotAllowedException('array layer error');
                             }
                             $csv_list[$k][$m] = $this->_parseCsv($v, $delimiter);
                         }
@@ -87,7 +86,7 @@ class CsvExportComponent extends Component {
         }
 
         fclose($fp);
-        
+
         return $save_directory;
     }
 
@@ -98,7 +97,8 @@ class CsvExportComponent extends Component {
      * @param $v 変換する値
      * @delimiter 区切り文字
      */
-    function _parseCsv($v, $delimiter) {
+    private function _parseCsv($v, $delimiter)
+    {
         //区切り文字・改行・ダブルクオートの時
         if (preg_match('/[' . $delimiter . '\\n"]/', $v)) {
             $v = str_replace('"', '""', $v);
@@ -108,5 +108,3 @@ class CsvExportComponent extends Component {
     }
 
 }
-
-?>

@@ -19,7 +19,8 @@ class FixedLengthImportForm extends Form
      * @param $array_encoding 出力するする配列のエンコード(デフォルトはUTF-8
      * @param $import_encoding 入力するテキストのエンコード(デフォルトはSJIS-win
      */
-    public function loadData($fileName, $column_list, $line_feed_code = "\r\n", $array_encoding = 'utf8',$import_encoding = 'sjis-win') {
+    public function loadData($fileName, $column_list, $line_feed_code = "\r\n", $array_encoding = 'utf8',$import_encoding = 'sjis-win')
+    {
         $fp = fopen($fileName,'r');
         $data = fread($fp, filesize($fileName));
         fclose($fp);
@@ -44,6 +45,5 @@ class FixedLengthImportForm extends Form
 
         return $return_info;
     }
-
 
 }

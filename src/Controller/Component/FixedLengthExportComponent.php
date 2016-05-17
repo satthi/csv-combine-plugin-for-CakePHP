@@ -15,7 +15,7 @@ use Cake\Network\Exception\MethodNotAllowedException;
  */
 class FixedLengthExportComponent extends Component {
 
-    var $_controller;
+    private $_controller;
 
     /**
      * コンポーネント初期化
@@ -37,7 +37,8 @@ class FixedLengthExportComponent extends Component {
      * @param $export_encoding 出力するファイルのエンコード(デフォルトはSJIS-win
      * @param $array_encoding 入力する配列のエンコード(デフォルトはUTF-8
      */
-    public function export($list, $fixed_options, $file_name = 'export.txt', $line_feed_code = "\r\n", $directory = TMP,$export_encoding = 'SJIS-win',$array_encoding = 'UTF-8') {
+    public function export($list, $fixed_options, $file_name = 'export.txt', $line_feed_code = "\r\n", $directory = TMP,$export_encoding = 'SJIS-win',$array_encoding = 'UTF-8')
+    {
         $save_directory = $this->make($list, $fixed_options, $file_name , $line_feed_code, $directory ,$export_encoding ,$array_encoding);
 
         header('Content-Disposition: attachment; filename="' . basename($save_directory) . '"');
@@ -48,10 +49,10 @@ class FixedLengthExportComponent extends Component {
 
         unlink($save_directory);
 
-        exit;
     }
 
-    public function make($list, $fixed_options, $file_name = 'export.txt', $line_feed_code = "\r\n",$directory = TMP,$export_encoding = 'SJIS-win',$array_encoding = 'UTF-8') {
+    public function make($list, $fixed_options, $file_name = 'export.txt', $line_feed_code = "\r\n",$directory = TMP,$export_encoding = 'SJIS-win',$array_encoding = 'UTF-8')
+    {
         // Configure::write('debug', 0);
         ini_set("memory_limit", -1);
         set_time_limit(0);
@@ -65,10 +66,6 @@ class FixedLengthExportComponent extends Component {
                     //必要なデータが存在しないエラー
                     throw new MethodNotAllowedException('data not exist');
                 } else if (strlen($list_val[$fixed_option_key]) > $fixed_length) {
-                    debug(strlen($list_val[$fixed_option_key]));
-                    debug($fixed_length);
-                    debug($list_val[$fixed_option_key]);
-                    exit;
                     throw new MethodNotAllowedException('length error');
                 }
                 $return_text .= str_pad($list_val[$fixed_option_key], $fixed_length);
@@ -86,5 +83,3 @@ class FixedLengthExportComponent extends Component {
     }
 
 }
-
-?>

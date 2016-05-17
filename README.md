@@ -88,7 +88,6 @@ class CsvController extends AppController
          *@array file ファイルパス(必須
          *@array $column カラム名を並び順に(必須
          *@param $delimiter 区切り文字を設定 (デフォルトは","で"\t"や"|"などを指定することが可能)
-         *@param $column_name カラム名を設定
          *@param $array_encoding 出力する配列のエンコード(デフォルトはUTF-8
          *@param $import_encoding 入力するファイルのエンコード(デフォルトはSJIS-win
         */
