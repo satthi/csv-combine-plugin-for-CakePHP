@@ -18,14 +18,14 @@ class CsvImportForm extends Form
     
 
     public function loadDataCsv($fileName, $column_list, $delimiter = ",", $column_name = 'csv',$array_encoding = 'utf8',$import_encoding = 'sjis-win') {
-        //•Û‘¶‚ð‚·‚é‚Ì‚Åƒ‚ƒfƒ‹‚ð“Ç‚Ýž‚Ý
+        //ä¿å­˜ã‚’ã™ã‚‹ã®ã§ãƒ¢ãƒ‡ãƒ«ã‚’èª­ã¿è¾¼ã¿
         $data = array();
         try {
             $buf = mb_convert_encoding(file_get_contents($fileName), $array_encoding,$import_encoding);
             $data = array();
             $csvData = array();
             $file = fopen($fileName,"r");
-            while($data = $this->fgetcsv_reg($file,65536,$delimiter)){//CSVƒtƒ@ƒCƒ‹‚ð","‹æØ‚è‚Å”z—ñ‚É
+            while($data = $this->fgetcsv_reg($file,65536,$delimiter)){//CSVãƒ•ã‚¡ã‚¤ãƒ«ã‚’","åŒºåˆ‡ã‚Šã§é…åˆ—ã«
                 mb_convert_variables($array_encoding,$import_encoding,$data);
                 $csvData[] = $data;
             }
@@ -35,9 +35,9 @@ class CsvImportForm extends Form
                 $this_data = array();
                 foreach ($column_list as $k => $v) {
                     if (isset($line[$k])) {
-                        //æ“ª‚Æ––”ö‚Ì"‚ðíœ
+                        //å…ˆé ­ã¨æœ«å°¾ã®"ã‚’å‰Šé™¤
                         $b = $line[$k];
-                        //ƒJƒ‰ƒ€‚Ì”‚¾‚¯ƒZƒbƒg
+                        //ã‚«ãƒ©ãƒ ã®æ•°ã ã‘ã‚»ãƒƒãƒˆ
                         $this_data = Hash::merge(
                                         $this_data,
                                         array($v => $b)
