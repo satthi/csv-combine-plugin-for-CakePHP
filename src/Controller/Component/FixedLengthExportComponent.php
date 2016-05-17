@@ -53,7 +53,7 @@ class FixedLengthExportComponent extends Component {
 
     public function make($list, $fixed_options, $file_name = 'export.txt', $line_feed_code = "\r\n",$directory = TMP,$export_encoding = 'SJIS-win',$array_encoding = 'UTF-8')
     {
-        // Configure::write('debug', 0);
+        Configure::write('debug', 0);
         ini_set("memory_limit", -1);
         set_time_limit(0);
         $csv_list = array();

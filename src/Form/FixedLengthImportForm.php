@@ -3,9 +3,6 @@
 namespace CsvCombine\Form;
 
 use Cake\Form\Form;
-use Cake\Form\Schema;
-use Cake\Validation\Validator;
-use Cake\Utility\Hash;
 
 class FixedLengthImportForm extends Form
 {
