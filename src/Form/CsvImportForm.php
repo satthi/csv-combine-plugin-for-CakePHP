@@ -10,18 +10,17 @@ use Cake\Utility\Hash;
 class CsvImportForm extends Form
 {
 
-    
+
     protected function _buildValidator(Validator $validator)
     {
         return $validator;
     }
-    
 
-    public function loadDataCsv($fileName, $column_list, $delimiter = ",", $column_name = 'csv',$array_encoding = 'utf8',$import_encoding = 'sjis-win') {
+
+    public function loadDataCsv($fileName, $column_list, $delimiter = ",", $array_encoding = 'utf8',$import_encoding = 'sjis-win')
+    {
         //保存をするのでモデルを読み込み
-        $data = array();
         try {
-            $buf = mb_convert_encoding(file_get_contents($fileName), $array_encoding,$import_encoding);
             $data = array();
             $csvData = array();
             $file = fopen($fileName,"r");
@@ -29,7 +28,7 @@ class CsvImportForm extends Form
                 mb_convert_variables($array_encoding,$import_encoding,$data);
                 $csvData[] = $data;
             }
-            
+
             $i = 0;
             foreach ($csvData as $line) {
                 $this_data = array();
@@ -53,13 +52,13 @@ class CsvImportForm extends Form
                 $data[$i] = $this_data;
                 $i++;
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return false;
         }
 
         return $data;
     }
-    
+
     /**
      * fgetcsv_reg
      *
@@ -71,7 +70,8 @@ class CsvImportForm extends Form
      * @see http://yossy.iimp.jp/wp/?p=56
      * @return array
      */
-    function fgetcsv_reg (&$handle, $length = null, $d = ',', $e = '"') {
+    private function fgetcsv_reg (&$handle, $length = null, $d = ',', $e = '"')
+    {
         $d = preg_quote($d);
         $e = preg_quote($e);
         $_line = "";
