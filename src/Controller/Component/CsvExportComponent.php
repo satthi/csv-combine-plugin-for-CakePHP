@@ -37,12 +37,17 @@ class CsvExportComponent extends Component {
      */
     public function export($list, $file_name = 'export.csv', $delimiter = ",", $directory = TMP,$export_encoding = 'SJIS-win',$array_encoding = 'UTF-8')
     {
-        $save_directory = $this->make($list, $file_name , $delimiter , $directory ,$export_encoding ,$array_encoding);
+        //layoutを切って autoRenderも外しておく
+        $this->_controller->viewBuilder()->layout('ajax');
+        $this->_controller->autoRender = false;
 
-        header('Content-Disposition: attachment; filename="' . basename($save_directory) . '"');
-        header('Content-Type: application/octet-stream');
-        header('Content-Transfer-Encoding: binary');
-        header('Content-Length: ' . filesize($save_directory));
+        //headerのセット
+        $this->_controller->response->header('Content-Disposition', 'attachment; filename="' . basename($save_directory) . '"');
+        $this->_controller->response->type('application/octet-stream');
+        $this->_controller->response->header('Content-Transfer-Encoding', 'binary');
+        $this->_controller->response->header('Content-Length', filesize($save_directory));
+
+        $save_directory = $this->make($list, $file_name , $delimiter , $directory ,$export_encoding ,$array_encoding);
         readfile($save_directory);
 
         unlink($save_directory);
