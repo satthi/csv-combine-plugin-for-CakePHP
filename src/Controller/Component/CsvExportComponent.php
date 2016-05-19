@@ -42,10 +42,12 @@ class CsvExportComponent extends Component {
         $this->_controller->autoRender = false;
 
         //headerのセット
-        $this->_controller->response->header('Content-Disposition', 'attachment; filename="' . basename($save_directory) . '"');
+        $basename = basename($save_directory);
+        $filesize = filesize($save_directory);
+        $this->_controller->response->header('Content-Disposition', 'attachment; filename="' . $basename . '"');
         $this->_controller->response->type('application/octet-stream');
         $this->_controller->response->header('Content-Transfer-Encoding', 'binary');
-        $this->_controller->response->header('Content-Length', filesize($save_directory));
+        $this->_controller->response->header('Content-Length', $filesize);
 
         $save_directory = $this->make($list, $file_name , $delimiter , $directory ,$export_encoding ,$array_encoding);
         readfile($save_directory);
