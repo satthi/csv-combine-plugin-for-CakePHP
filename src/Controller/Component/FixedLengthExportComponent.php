@@ -44,6 +44,7 @@ class FixedLengthExportComponent extends Component {
         $this->_controller->autoRender = false;
 
         //headerのセット
+        $save_directory = $this->make($list, $fixed_options, $file_name , $line_feed_code, $directory ,$export_encoding ,$array_encoding);
         $basename = basename($save_directory);
         $filesize = filesize($save_directory);
         $this->_controller->response->header('Content-Disposition', 'attachment; filename="' . $basename . '"');
@@ -51,7 +52,6 @@ class FixedLengthExportComponent extends Component {
         $this->_controller->response->header('Content-Transfer-Encoding', 'binary');
         $this->_controller->response->header('Content-Length', $filesize);
 
-        $save_directory = $this->make($list, $fixed_options, $file_name , $line_feed_code, $directory ,$export_encoding ,$array_encoding);
         readfile($save_directory);
 
         unlink($save_directory);
