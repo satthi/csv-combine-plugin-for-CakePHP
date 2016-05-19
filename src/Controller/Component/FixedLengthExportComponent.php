@@ -39,16 +39,22 @@ class FixedLengthExportComponent extends Component {
      */
     public function export($list, $fixed_options, $file_name = 'export.txt', $line_feed_code = "\r\n", $directory = TMP,$export_encoding = 'SJIS-win',$array_encoding = 'UTF-8')
     {
-        $save_directory = $this->make($list, $fixed_options, $file_name , $line_feed_code, $directory ,$export_encoding ,$array_encoding);
+        //layoutを切って autoRenderも外しておく
+        $this->_controller->viewBuilder()->layout('ajax');
+        $this->_controller->autoRender = false;
 
-        header('Content-Disposition: attachment; filename="' . basename($save_directory) . '"');
-        header('Content-Type: application/octet-stream');
-        header('Content-Transfer-Encoding: binary');
-        header('Content-Length: ' . filesize($save_directory));
+        //headerのセット
+        $save_directory = $this->make($list, $fixed_options, $file_name , $line_feed_code, $directory ,$export_encoding ,$array_encoding);
+        $basename = basename($save_directory);
+        $filesize = filesize($save_directory);
+        $this->_controller->response->header('Content-Disposition', 'attachment; filename="' . $basename . '"');
+        $this->_controller->response->type('application/octet-stream');
+        $this->_controller->response->header('Content-Transfer-Encoding', 'binary');
+        $this->_controller->response->header('Content-Length', $filesize);
+
         readfile($save_directory);
 
         unlink($save_directory);
-
     }
 
     /*
