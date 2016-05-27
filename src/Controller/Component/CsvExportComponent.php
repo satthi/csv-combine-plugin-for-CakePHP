@@ -3,6 +3,7 @@ namespace CsvCombine\Controller\Component;
 use Cake\Controller\Component;
 use Cake\Core\Configure;
 use Cake\Event\Event;
+use Cake\Network\Exception\MethodNotAllowedException;
 
 /**
  * CsvExportComponent  code license:
@@ -45,10 +46,10 @@ class CsvExportComponent extends Component {
         $save_directory = $this->make($list, $file_name , $delimiter , $directory ,$export_encoding ,$array_encoding);
         $basename = basename($save_directory);
         $filesize = filesize($save_directory);
-        $this->_controller->response->header('Content-Disposition', 'attachment; filename="' . $basename . '"');
-        $this->_controller->response->type('application/octet-stream');
-        $this->_controller->response->header('Content-Transfer-Encoding', 'binary');
-        $this->_controller->response->header('Content-Length', $filesize);
+        header('Content-Disposition: attachment; filename="' . $basename . '"');
+        header('Content-Type: application/octet-stream');
+        header('Content-Transfer-Encoding: binary');
+        header('Content-Length: ' . $filesize);
 
         readfile($save_directory);
 

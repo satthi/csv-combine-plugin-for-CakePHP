@@ -47,10 +47,10 @@ class FixedLengthExportComponent extends Component {
         $save_directory = $this->make($list, $fixed_options, $file_name , $line_feed_code, $directory ,$export_encoding ,$array_encoding);
         $basename = basename($save_directory);
         $filesize = filesize($save_directory);
-        $this->_controller->response->header('Content-Disposition', 'attachment; filename="' . $basename . '"');
-        $this->_controller->response->type('application/octet-stream');
-        $this->_controller->response->header('Content-Transfer-Encoding', 'binary');
-        $this->_controller->response->header('Content-Length', $filesize);
+        header('Content-Disposition: attachment; filename="' . $basename . '"');
+        header('Content-Type: application/octet-stream');
+        header('Content-Transfer-Encoding: binary');
+        header('Content-Length: ' . $filesize);
 
         readfile($save_directory);
 
