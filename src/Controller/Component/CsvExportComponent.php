@@ -45,15 +45,7 @@ class CsvExportComponent extends Component {
         //headerのセット
         $save_directory = $this->make($list, $file_name , $delimiter , $directory ,$export_encoding ,$array_encoding);
         $basename = basename($save_directory);
-        $filesize = filesize($save_directory);
-        header('Content-Disposition: attachment; filename="' . $basename . '"');
-        header('Content-Type: application/octet-stream');
-        header('Content-Transfer-Encoding: binary');
-        header('Content-Length: ' . $filesize);
-
-        readfile($save_directory);
-
-        unlink($save_directory);
+        $this->_controller->response->file($save_directory, ['download' => true, 'name' => $basename]);
     }
 
     /*
