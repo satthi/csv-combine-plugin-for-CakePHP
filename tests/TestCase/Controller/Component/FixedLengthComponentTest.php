@@ -74,12 +74,15 @@ class FixedLengthExportComponentTest extends TestCase
             ],
         ];
         $fixed_options = [
-            8,
-            10,
-            6
+            ['length' => 8, 'type' => 'text'],
+            ['length' => 10, 'type' => 'text'],
+            ['length' => 6, 'type' => 'text'],
         ];
-
-        $this->FixedLengthExport->make($list, $fixed_options, $test2_fixed_length_path_pathinfo['basename'], "\r\n",$test2_fixed_length_path_pathinfo['dirname'] . '/');
+        $options = [
+            'file_name' => $test2_fixed_length_path_pathinfo['basename'],
+            'directory' => $test2_fixed_length_path_pathinfo['dirname'] . '/'
+        ];
+        $this->FixedLengthExport->make($list, $fixed_options, $options);
 
         $fixed_length1_fp = fopen($this->test1_fixed_length_path ,'r');
         $fixed_length1 = fread($fixed_length1_fp, filesize($this->test1_fixed_length_path));
