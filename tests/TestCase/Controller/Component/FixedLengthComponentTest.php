@@ -60,7 +60,8 @@ class FixedLengthExportComponentTest extends TestCase
             [
                 'あいう',
                 'いいい',
-                'uuu',
+                'uu',
+                'u',
             ],
             [
                 'いうえ',
@@ -68,7 +69,8 @@ class FixedLengthExportComponentTest extends TestCase
                 'eee',
             ],
             [
-                'abcde',
+                'ab',
+                'cde',
                 'fggf',
                 'おお',
             ],
@@ -78,9 +80,25 @@ class FixedLengthExportComponentTest extends TestCase
             ['length' => 10, 'type' => 'text'],
             ['length' => 6, 'type' => 'text'],
         ];
+        $header_options = [
+            ['length' => 8, 'type' => 'text'],
+            ['length' => 10, 'type' => 'text'],
+            ['length' => 2, 'type' => 'text'],
+            ['length' => 4, 'type' => 'text'],
+        ];
+        $footer_options = [
+            ['length' => 2, 'type' => 'text'],
+            ['length' => 6, 'type' => 'text'],
+            ['length' => 10, 'type' => 'text'],
+            ['length' => 6, 'type' => 'text'],
+        ];
         $options = [
             'file_name' => $test2_fixed_length_path_pathinfo['basename'],
-            'directory' => $test2_fixed_length_path_pathinfo['dirname'] . '/'
+            'directory' => $test2_fixed_length_path_pathinfo['dirname'] . '/',
+            'extra_fixed_options' => [
+                1 => $header_options,
+                -1 => $footer_options,
+            ]
         ];
         $this->FixedLengthExport->make($list, $fixed_options, $options);
 
