@@ -46,13 +46,28 @@ class FixedLengthImportFormTest extends TestCase
             ['name' => 'column2', 'length' => 10],
             ['name' => 'column3', 'length' => 6],
         ];
-        $fixedLengthData = $this->Form->loadData($test1_fixed_length_path, $column_list);
+        $extra_list = [
+            //ヘッダー
+            1 => [
+                ['name' => 'columna', 'length' => 4],
+                ['name' => 'columnb', 'length' => 8],
+                ['name' => 'columnc', 'length' => 12],
+            ],
+            //フッター
+            -1 => [
+                ['name' => 'columnx', 'length' => 2],
+                ['name' => 'columny', 'length' => 12],
+                ['name' => 'columnz', 'length' => 10],
+            ]
+        ];
+        $options = ['extra_fixed_options' => $extra_list];
+        $fixedLengthData = $this->Form->loadData($test1_fixed_length_path, $column_list, $options);
         //テストファイル
         //1行目
         $result1 = [
-            'column1' => 'あいう',
-            'column2' => 'いいい',
-            'column3' => 'uuu'
+            'columna' => 'あい',
+            'columnb' => 'う  いい',
+            'columnc' => 'い    uuu'
         ];
         $this->assertTrue(
             $fixedLengthData[0] === $result1
@@ -70,9 +85,9 @@ class FixedLengthImportFormTest extends TestCase
 
         //3行目
         $result3 = [
-            'column1' => 'abcde',
-            'column2' => 'fggf',
-            'column3' => 'おお'
+            'columnx' => 'ab',
+            'columny' => 'cde   fggf',
+            'columnz' => '    おお'
         ];
         $this->assertTrue(
             $fixedLengthData[2] === $result3
