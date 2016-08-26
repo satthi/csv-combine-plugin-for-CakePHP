@@ -94,8 +94,8 @@ class FixedLengthExportComponent extends Component {
             $column_options = $fixed_options;
             if (array_key_exists($row + 1, $extra_fixed_options)) {
                 $column_options = $extra_fixed_options[$row + 1];
-            } elseif (array_key_exists($row - $list_count + 1, $extra_fixed_options)) {
-                $column_options = $extra_fixed_options[$row - $list_count + 1];
+            } elseif (array_key_exists($row - $list_count, $extra_fixed_options)) {
+                $column_options = $extra_fixed_options[$row - $list_count];
             }
 
             foreach ($column_options as $fixed_option_key => $fixed_info) {
