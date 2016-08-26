@@ -77,7 +77,7 @@ class FixedLengthExportComponent extends Component {
      */
     public function make($list, $fixed_options, $options)
     {
-        // Configure::write('debug', 0);
+        Configure::write('debug', 0);
         ini_set("memory_limit", -1);
         set_time_limit(0);
         $options = array_merge($this->_defaultOptions,$options);
