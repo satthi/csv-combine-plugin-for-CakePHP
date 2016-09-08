@@ -24,6 +24,7 @@ class FixedLengthExportComponent extends Component {
         'array_encoding' => 'UTF-8',
         'extra_fixed_options' => []
     ];
+    private $_textData = '';
 
     /**
      * コンポーネント初期化
@@ -80,6 +81,8 @@ class FixedLengthExportComponent extends Component {
         Configure::write('debug', 0);
         ini_set("memory_limit", -1);
         set_time_limit(0);
+
+        $this->_textData = '';
         $options = array_merge($this->_defaultOptions,$options);
         extract($options);
 
@@ -117,6 +120,7 @@ class FixedLengthExportComponent extends Component {
             $return_text .= $line_feed_code;
         }
 
+        $this->_textData = $return_text;
         $save_directory = $directory . $file_name;
         $fp = fopen($save_directory, 'w');
         fwrite($fp, $return_text);
@@ -126,4 +130,11 @@ class FixedLengthExportComponent extends Component {
         return $save_directory;
     }
 
+    /*
+     * getRawData ファイルに出力した生テキストデータを取得
+     */
+    public function getRawData()
+    {
+        return $this->_textData;
+    }
 }
