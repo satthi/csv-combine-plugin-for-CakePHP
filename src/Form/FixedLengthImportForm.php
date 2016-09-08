@@ -34,6 +34,25 @@ class FixedLengthImportForm extends Form
         $data = fread($fp, filesize($fileName));
         fclose($fp);
 
+        return $this->loadDataBody($data, $fixed_options, $options);
+    }
+
+    /*
+     * loadDataBody 固定長内容読み込みアクション
+     *
+     * @param string $data 固定長テキストデータ
+     * @param array $column_list 各カラム情報(name:カラム名,length:バイト数)
+     * @param array $options 下記パラメータを必要に応じて設定
+     * line_feed_code 改行コード(デフォルトは\r\n)
+     * array_encoding 出力するする配列のエンコード(デフォルトはUTF-8
+     * import_encoding 入力するテキストのエンコード(デフォルトはSJIS-win
+     * extra_fixed_options 出力のための固定長の設定(列によって桁数が異なる場合の設定)
+     */
+    public function loadDataBody($data, $fixed_options, $options = [])
+    {
+        $options = array_merge($this->_defaultOptions,$options);
+        extract($options);
+        
         $return_info = [];
         //まずは分割
         $data_explode = explode($line_feed_code, $data);
@@ -62,5 +81,4 @@ class FixedLengthImportForm extends Form
 
         return $return_info;
     }
-
 }
