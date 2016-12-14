@@ -57,7 +57,7 @@ class CsvImportFormTest extends TestCase
         $this->assertTrue(
             $csvData[0] === $result1
         );
-        
+
         //2行目
         $result2 = [
             'column1' => 'あ',
@@ -67,7 +67,7 @@ class CsvImportFormTest extends TestCase
         $this->assertTrue(
             $csvData[1] === $result2
         );
-        
+
         //3行目
         $result3 = [
             'column1' => '"hoge',
@@ -78,6 +78,52 @@ class CsvImportFormTest extends TestCase
             $csvData[2] === $result3
         );
     }
-    
+
+    /**
+     * Test initialize method
+     *
+     * @return void
+     */
+    public function test_loadCsvEmpty()
+    {
+        $test1_csv_path = dirname(dirname(dirname(__FILE__))) . '/test_app/test1.csv';
+        $column = [
+            'column1',
+            'column2',
+            'column3',
+        ];
+        $csvData = $this->Form->loadDataCsv($test1_csv_path);
+        //テストファイル
+        //1行目
+        $result1 = [
+            '1',
+            '2',
+            '3'
+        ];
+        $this->assertTrue(
+            $csvData[0] === $result1
+        );
+
+        //2行目
+        $result2 = [
+            'あ',
+            'い',
+            'う'
+        ];
+        $this->assertTrue(
+            $csvData[1] === $result2
+        );
+
+        //3行目
+        $result3 = [
+            '"hoge',
+            "\r\n",
+            ''
+        ];
+        $this->assertTrue(
+            $csvData[2] === $result3
+        );
+    }
+
 
 }
