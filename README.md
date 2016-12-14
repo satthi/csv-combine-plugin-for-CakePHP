@@ -170,7 +170,7 @@ class CsvController extends AppController
         $import = new FixedLengthImportForm();
         /*
          * @text $fileName 固定長テキストファイ
-         * @array $column_list 各カラム情報(name:カラム名,length:バイト数)
+         * @array $column_list 各カラム情報(name:カラム名,length:バイト数 デフォルトは空配列 空時には列の数だけ0から連番を振る)
          * @param $line_feed_code 改行コード(デフォルトは\r\n)
          * @param $array_encoding 出力するする配列のエンコード(デフォルトはUTF-8
          * @param $import_encoding 入力するテキストのエンコード(デフォルトはSJIS-win
