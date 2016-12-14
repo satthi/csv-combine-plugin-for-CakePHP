@@ -24,7 +24,7 @@ class CsvImportForm extends Form
      * @param string $array_encoding 出力するする配列のエンコード(デフォルトはUTF-8
      * @param string $import_encoding 入力するテキストのエンコード(デフォルトはSJIS-win
      */
-    public function loadDataCsv($fileName, $column_list = [], $delimiter = ",", $array_encoding = 'utf8',$import_encoding = 'sjis-win')
+    public function loadDataCsv($fileName, $column_list = array(), $delimiter = ",", $array_encoding = 'utf8',$import_encoding = 'sjis-win')
     {
         //保存をするのでモデルを読み込み
         try {
@@ -40,7 +40,7 @@ class CsvImportForm extends Form
             foreach ($csvData as $line) {
                 $this_data = array();
                 if (empty($column_list)) {
-                    $this_column_list = [];
+                    $this_column_list = array();
                     $line_count = 0;
                     foreach ($line as $line_v) {
                         $this_column_list[] = $line_count;
