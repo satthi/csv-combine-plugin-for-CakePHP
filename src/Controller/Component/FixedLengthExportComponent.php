@@ -59,7 +59,14 @@ class FixedLengthExportComponent extends Component {
 
         //headerのセット
         $save_directory = $this->make($list, $fixed_options, $options);
+        // 日本語ファイル名出力のため
+        setlocale(LC_ALL, 'ja_JP.UTF-8');
         $basename = basename($save_directory);
+
+        // ファイル名の変換(IE対応)
+        if (strstr(env('HTTP_USER_AGENT'), 'MSIE') || strstr(env('HTTP_USER_AGENT'), 'Trident') || strstr(env('HTTP_USER_AGENT'), 'Edge')) {
+            $basename = mb_convert_encoding($basename, "SJIS", "UTF-8");
+        }
         $this->_controller->response->file($save_directory, ['download' => true, 'name' => $basename]);
     }
 
