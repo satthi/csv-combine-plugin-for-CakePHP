@@ -27,6 +27,7 @@ class LargeCsvExport {
      */
     public function __construct($settings = [])
     {
+        // 設定値
         $this->settings = array_merge(
             $this->defaultSettings,
             $settings
@@ -34,6 +35,10 @@ class LargeCsvExport {
         $this->tmpCsvFp = new File($this->getTmpFileName());
     }
 
+    /**
+     * getTmpFileName
+     *　一時ファイルの取得
+     */
     private function getTmpFileName()
     {
         $tmpFileName = TMP . 'csv_file_' . Security::hash(time() . rand());
@@ -44,7 +49,10 @@ class LargeCsvExport {
         return $tmpFileName;
     }
 
-
+    /**
+     * addRow
+     *　都度都度ファイルに追記をしていく
+     */
     public function addRow($lists)
     {
         if (!is_array($lists)) {
@@ -54,6 +62,10 @@ class LargeCsvExport {
         $this->tmpCsvFp->write($csvRow, 'a');
     }
 
+    /**
+     * read
+     *　csvテキストデータの読み込み(及び一時ファイルの削除)
+     */
     public function read()
     {
         $csvText = $this->tmpCsvFp->read();
@@ -67,8 +79,8 @@ class LargeCsvExport {
      * _parseCsv
      * csv(など)の形式に変更
      *
-     * @param string $v 変換する値
-     * @param string $delimiter 区切り文字
+     * @param array $lists 変換する値
+     * @param string 1行分のCSVテキストデータ
      */
     private function parseCsv($lists)
     {
