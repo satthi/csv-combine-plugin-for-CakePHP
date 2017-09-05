@@ -75,6 +75,15 @@ class LargeCsvExport {
         return $csvText;
     }
 
+    /**
+     * getPath
+     *　ファイルパスの取得。readメソッドでメモリで落ちる場合はパスを取得してrequest->fileでDLする
+     */
+    public function getPath()
+    {
+        return $this->tmpCsvFp->pwd();
+    }
+
     /*
      * _parseCsv
      * csv(など)の形式に変更
