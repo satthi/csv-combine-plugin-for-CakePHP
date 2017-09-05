@@ -69,9 +69,14 @@ class LargeCsvExport {
         }
     }
 
+    /**
+     * writeRow
+     *　行の書き込み
+     */
     private function writeRow()
     {
         $this->tmpCsvFp->write($this->tmpRowText, 'a');
+        // 一時的なテキストの初期化
         $this->tmpRowText = '';
     }
 
