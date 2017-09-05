@@ -18,8 +18,11 @@ class LargeCsvExport {
         'delimiter' => ',',
         'export_encoding' => 'SJIS-win',
         'array_encoding' => 'UTF-8',
+        'write_span' => 1,
     ];
     private $settings;
+    private $tmpRowText = '';
+    private $rowCount = 0;
 
     /**
      * __construct
@@ -58,8 +61,23 @@ class LargeCsvExport {
         if (!is_array($lists)) {
             throw new MethodNotAllowedException('$list must be array.');
         }
+        $this->rowCount++;
         $csvRow = $this->parseCsv($lists);
-        $this->tmpCsvFp->write($csvRow, 'a');
+        $this->tmpRowText .= $csvRow;
+        if ($this->rowCount % $this->settings['write_span'] == 0) {
+            $this->writeRow();
+        }
+    }
+
+    /**
+     * writeRow
+     *　行の書き込み
+     */
+    private function writeRow()
+    {
+        $this->tmpCsvFp->write($this->tmpRowText, 'a');
+        // 一時的なテキストの初期化
+        $this->tmpRowText = '';
     }
 
     /**
@@ -68,6 +86,9 @@ class LargeCsvExport {
      */
     public function read()
     {
+        // 書き込みの残りがあれば書き込む
+        $this->writeRow();
+
         $csvText = $this->tmpCsvFp->read();
         // ファイル削除
         $this->tmpCsvFp->delete();
@@ -81,6 +102,8 @@ class LargeCsvExport {
      */
     public function getPath()
     {
+        // 書き込みの残りがあれば書き込む
+        $this->writeRow();
         return $this->tmpCsvFp->pwd();
     }
 
