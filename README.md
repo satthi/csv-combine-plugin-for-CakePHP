@@ -1,3 +1,5 @@
+# 今後、新しくご利用の方は https://github.com/satthi/csv-combine をご利用ください。#
+
 # CsvCombine plugin for CakePHP3 #
 
 [![Build Status](https://travis-ci.org/satthi/csv-combine-plugin-for-CakePHP.svg?branch=master)](https://travis-ci.org/satthi/csv-combine-plugin-for-CakePHP)
